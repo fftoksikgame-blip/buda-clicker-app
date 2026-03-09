@@ -454,16 +454,6 @@
             
             updateDisplay();
             
-            // Отправляем на сервер
-            fetch('/api/click', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    user_id: userId,
-                    earned: earned
-                })
-            }).catch(() => {});
-            
             // Проверка на достижение новой стадии
             const oldStage = getFatnessStage(userData.totalClicks - 1).level;
             const newStage = getFatnessStage(userData.totalClicks).level;
@@ -546,3 +536,4 @@
     </script>
 </body>
 </html>
+
