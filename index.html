@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Буда Кликер</title>
     <style>
+        /* Стили полностью сохранены, ничего не меняем */
         * {
             margin: 0;
             padding: 0;
@@ -254,7 +255,8 @@
     <div class="game-container">
         <div class="stats-panel">
             <div class="balance">
-                <span class="balance-icon">💰</span>
+                <!-- Меняем иконку с мешка на палец -->
+                <span class="balance-icon">👉</span>
                 <span id="balanceDisplay">0</span>
             </div>
             <div class="energy">
@@ -339,6 +341,7 @@
             { threshold: 1000000, name: "Буда-планета", emoji: "🌍", level: 7 }
         ];
 
+        // Загружаем данные из CloudStorage
         tg.CloudStorage.getItem('userData', (err, data) => {
             if (data) {
                 try {
@@ -346,6 +349,8 @@
                 } catch (e) {}
             }
             updateDisplay();
+            // При загрузке отправляем боту текущее состояние для синхронизации
+            sendDataToBot('sync');
         });
 
         const botUsername = 'budka_click_bot';
@@ -381,9 +386,23 @@
 
             document.getElementById('powerCost').textContent = `${100 * userData.clickPower} 💰`;
 
+            // Сохраняем локально
             tg.CloudStorage.setItem('userData', JSON.stringify(userData));
         }
 
+        // Функция отправки данных в бота
+        function sendDataToBot(action, earned = 0) {
+            if (!tg) return;
+            const data = {
+                action: action,
+                earned: earned,
+                totalClicks: userData.totalClicks,
+                balance: userData.balance
+            };
+            tg.sendData(JSON.stringify(data));
+        }
+
+        // Обработчик клика
         document.getElementById('budaButton').addEventListener('click', (e) => {
             if (userData.energy <= 0) {
                 tg.HapticFeedback?.notificationOccurred('error');
@@ -395,6 +414,7 @@
                 return;
             }
 
+            // Анимация
             const button = e.currentTarget;
             button.style.transform = 'scale(0.95)';
             setTimeout(() => button.style.transform = 'scale(1)', 100);
@@ -423,6 +443,9 @@
 
             updateDisplay();
 
+            // Отправляем клик в бота
+            sendDataToBot('click', earned);
+
             const oldStage = getFatnessStage(userData.totalClicks - 1).level;
             const newStage = getFatnessStage(userData.totalClicks).level;
             if (newStage > oldStage) {
@@ -435,6 +458,7 @@
             }
         });
 
+        // Покупка улучшений (без изменений)
         function buyUpgrade(type) {
             let cost = 0;
             switch(type) {
@@ -471,6 +495,8 @@
             if (userData.balance >= cost) {
                 tg.HapticFeedback?.notificationOccurred('success');
                 updateDisplay();
+                // После покупки отправляем обновленный баланс боту
+                sendDataToBot('upgrade');
             } else {
                 tg.HapticFeedback?.notificationOccurred('error');
             }
