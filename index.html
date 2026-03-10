@@ -3,11 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🐹 Буда Кликер</title>
+    <title>🍔 Буда Кликер</title>
     <style>
-        /* Все стили из прошлой рабочей версии (если потерял, напиши, но обычно они уже есть) */
-        /* Для краткости я не копирую их сюда, но ты должен оставить свои старые стили */
-        /* Если стили слетели, просто вставь их из предыдущего файла, который у тебя был рабочим */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 12px;
+        }
+        .game-container {
+            max-width: 450px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 40px;
+            padding: 20px 16px 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .stats-panel {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 30px;
+            padding: 18px;
+            margin-bottom: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .balance {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 24px;
+            font-weight: 900;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 40px;
+        }
+        .balance-icon { font-size: 28px; }
+        .energy {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0,0,0,0.2);
+            padding: 8px 16px;
+            border-radius: 40px;
+        }
+        .energy-bar {
+            width: 80px;
+            height: 10px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .energy-fill {
+            height: 100%;
+            background: #fff;
+            width: 100%;
+            border-radius: 10px;
+        }
+        .buda-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .buda-button {
+            width: 280px;
+            height: 280px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffd93e, #ff9f1a);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.3), inset 0 -10px 20px rgba(0,0,0,0.3), inset 0 10px 20px rgba(255,255,255,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.1s;
+            border: 6px solid #ffaa00;
+            position: relative;
+            overflow: hidden;
+        }
+        .buda-button:active {
+            transform: scale(0.95);
+        }
+        .buda-button img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .fatness-name {
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            background: rgba(255,255,255,0.8);
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 40px;
+        }
+        .click-power {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #666;
+        }
+        .upgrades-section {
+            margin-top: 25px;
+        }
+        .section-title {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333;
+        }
+        .upgrades-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .upgrade-card {
+            background: white;
+            border-radius: 25px;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255,255,255,0.8);
+            cursor: pointer;
+        }
+        .upgrade-card:active {
+            transform: scale(0.97);
+        }
+        .upgrade-emoji { font-size: 36px; }
+        .upgrade-name { font-weight: 800; }
+        .upgrade-price {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: white;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+        .ref-section {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 20px;
+            color: white;
+        }
+        .ref-link {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+        .copy-btn {
+            background: white;
+            border: none;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+        .copy-btn:active { transform: scale(0.98); }
+        .click-effect {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            transform: scale(0);
+            pointer-events: none;
+        }
+        .click-effect.active {
+            animation: clickRipple 0.4s ease-out;
+        }
+        @keyframes clickRipple {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
     </style>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -15,7 +203,7 @@
     <div class="game-container">
         <div class="stats-panel">
             <div class="balance">
-                <span>🪙</span>
+                <span class="balance-icon">👉</span>
                 <span id="balanceDisplay">0</span>
             </div>
             <div class="energy">
@@ -36,57 +224,41 @@
             <div class="click-power" id="clickPowerDisplay">+1 за тычок</div>
         </div>
 
-        <div class="nav-tabs">
-            <div class="nav-tab active" onclick="switchTab('game')">🎮 Игра</div>
-            <div class="nav-tab" onclick="switchTab('upgrades')">⚡ Прокачка</div>
-            <div class="nav-tab" onclick="switchTab('settings')">⚙️ Настройки</div>
-        </div>
-
-        <div id="gamePanel">
-            <div class="panel">
-                <div style="color:#ffd700;">📊 Твоя статистика</div>
-                <div class="settings-item"><span>Всего кликов</span><span id="statClicks">0</span></div>
-                <div class="settings-item"><span>Всего заработано</span><span id="statEarned">0</span></div>
-                <div class="settings-item"><span>Рефералов</span><span id="referralsCount">0</span></div>
+        <div class="upgrades-section">
+            <div class="section-title">
+                <span>🔧</span> Прокачка
             </div>
-            <div class="ref-link" style="background: rgba(30,35,50,0.8); border-radius: 20px; padding: 15px; margin-top: 15px;">
-                <div style="color: white; margin-bottom: 10px;">👥 Твоя реферальная ссылка</div>
-                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 15px; font-size: 12px; word-break: break-all; color: #ffd700;" id="refLink">загрузка...</div>
-                <button class="copy-btn" onclick="copyRefLink()">📋 Копировать</button>
-            </div>
-        </div>
-
-        <div id="upgradesPanel" style="display:none;">
             <div class="upgrades-grid">
                 <div class="upgrade-card" onclick="buyUpgrade('power')">
-                    <div>💪</div>
-                    <div>Сила клика</div>
-                    <div class="upgrade-price" id="powerCost">100</div>
+                    <div class="upgrade-emoji">💪</div>
+                    <div class="upgrade-name">Сила тычка</div>
+                    <div class="upgrade-price" id="powerCost">100 💰</div>
                 </div>
                 <div class="upgrade-card" onclick="buyUpgrade('energy')">
-                    <div>🔋</div>
-                    <div>Макс. энергия</div>
-                    <div class="upgrade-price" id="energyCost">200</div>
+                    <div class="upgrade-emoji">🔋</div>
+                    <div class="upgrade-name">Макс. энергия</div>
+                    <div class="upgrade-price" id="energyCost">200 💰</div>
                 </div>
                 <div class="upgrade-card" onclick="buyUpgrade('regen')">
-                    <div>⚡</div>
-                    <div>Регенерация</div>
-                    <div class="upgrade-price" id="regenCost">300</div>
+                    <div class="upgrade-emoji">⚡</div>
+                    <div class="upgrade-name">Регенерация</div>
+                    <div class="upgrade-price" id="regenCost">300 💰</div>
                 </div>
                 <div class="upgrade-card" onclick="buyUpgrade('crit')">
-                    <div>🎯</div>
-                    <div>Крит. шанс</div>
-                    <div class="upgrade-price" id="critCost">500</div>
+                    <div class="upgrade-emoji">🎯</div>
+                    <div class="upgrade-name">Крит. шанс</div>
+                    <div class="upgrade-price" id="critCost">500 💰</div>
                 </div>
             </div>
         </div>
 
-        <div id="settingsPanel" style="display:none;">
-            <div class="panel">
-                <div class="settings-item"><span>Версия</span><span>1.0.0</span></div>
-                <div class="settings-item"><span>Твой ID</span><span id="userId">-</span></div>
-                <div class="settings-item"><span>Премиум</span><span id="premiumStatus">Нет</span></div>
+        <div class="ref-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span><strong>👥 Рефералов: <span id="referralsCount">0</span></strong></span>
+                <span>+100 монет за друга</span>
             </div>
+            <div class="ref-link" id="refLink">загрузка...</div>
+            <button class="copy-btn" onclick="copyRefLink()">📋 Копировать ссылку</button>
         </div>
     </div>
 
@@ -109,13 +281,6 @@
             premium: false
         };
 
-        const userId = tg.initDataUnsafe.user?.id || 0;
-        document.getElementById('userId').textContent = userId;
-
-        const botUsername = 'budka_click_bot';
-        const refLink = `https://t.me/${botUsername}?start=ref_${userId}`;
-        document.getElementById('refLink').textContent = refLink;
-
         const fatnessStages = [
             { threshold: 0, name: "Буда-спичка" },
             { threshold: 100, name: "Буда-пончик" },
@@ -125,6 +290,11 @@
             { threshold: 500000, name: "Буда-бочка" },
             { threshold: 1000000, name: "Буда-планета" }
         ];
+
+        const userId = tg.initDataUnsafe.user?.id || 0;
+        const botUsername = 'budka_click_bot';
+        const refLink = `https://t.me/${botUsername}?start=ref_${userId}`;
+        document.getElementById('refLink').textContent = refLink;
 
         function loadData() {
             tg.CloudStorage.getItem('budaData', (err, data) => {
@@ -169,26 +339,14 @@
             document.getElementById('fatnessName').textContent = stage.name;
             document.getElementById('clickPowerDisplay').textContent = `+${userData.clickPower} за тычок`;
 
-            document.getElementById('powerCost').textContent = userData.clickPower * 100;
-            document.getElementById('energyCost').textContent = 200;
-            document.getElementById('regenCost').textContent = 300;
-            document.getElementById('critCost').textContent = 500;
-
-            document.getElementById('statClicks').textContent = userData.totalClicks;
-            document.getElementById('statEarned').textContent = userData.totalEarned;
+            document.getElementById('powerCost').textContent = `${100 * userData.clickPower} 💰`;
+            document.getElementById('energyCost').textContent = '200 💰';
+            document.getElementById('regenCost').textContent = '300 💰';
+            document.getElementById('critCost').textContent = '500 💰';
             document.getElementById('referralsCount').textContent = userData.referrals;
-            document.getElementById('premiumStatus').textContent = userData.premium ? 'Да' : 'Нет';
 
             saveData();
         }
-
-        window.switchTab = function(tab) {
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('gamePanel').style.display = tab === 'game' ? 'block' : 'none';
-            document.getElementById('upgradesPanel').style.display = tab === 'upgrades' ? 'block' : 'none';
-            document.getElementById('settingsPanel').style.display = tab === 'settings' ? 'block' : 'none';
-        };
 
         document.getElementById('budaButton').addEventListener('click', (e) => {
             if (userData.energy <= 0) {
@@ -204,10 +362,10 @@
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const effect = document.getElementById('clickEffect');
-            effect.style.left = x - 40 + 'px';
-            effect.style.top = y - 40 + 'px';
+            effect.style.left = x - 30 + 'px';
+            effect.style.top = y - 30 + 'px';
             effect.classList.add('active');
-            setTimeout(() => effect.classList.remove('active'), 500);
+            setTimeout(() => effect.classList.remove('active'), 400);
 
             tg.HapticFeedback?.impactOccurred('medium');
 
@@ -226,7 +384,7 @@
             sendDataToBot('click', { earned });
         });
 
-        window.buyUpgrade = function(type) {
+        function buyUpgrade(type) {
             let cost = 0;
             switch(type) {
                 case 'power':
@@ -266,7 +424,7 @@
             } else {
                 tg.HapticFeedback?.notificationOccurred('error');
             }
-        };
+        }
 
         window.copyRefLink = function() {
             navigator.clipboard.writeText(refLink);
