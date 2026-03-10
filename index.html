@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🐹 Буда Кликер</title>
+    <title>🍔 Буда Кликер</title>
     <style>
         * {
             margin: 0;
@@ -14,110 +14,73 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--tg-theme-bg-color, #0f172a);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 12px;
-            transition: background 0.3s;
         }
 
         .game-container {
             max-width: 450px;
-            width: 100%;
-            background: var(--tg-theme-secondary-bg-color, #1e293b);
-            border-radius: 48px;
-            padding: 24px 20px 32px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            position: relative;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 40px;
+            padding: 20px 16px 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
         }
 
-        /* Статистика */
         .stats-panel {
-            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-            border-radius: 32px;
-            padding: 20px;
-            margin-bottom: 24px;
-            color: #0f172a;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 30px;
+            padding: 18px;
+            margin-bottom: 20px;
+            color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 15px 30px -10px rgba(212, 175, 55, 0.3);
         }
 
         .balance {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 28px;
-            font-weight: 800;
-            background: rgba(15, 23, 42, 0.2);
+            font-size: 24px;
+            font-weight: 900;
+            background: rgba(255,255,255,0.2);
             padding: 8px 20px;
             border-radius: 40px;
-            backdrop-filter: blur(5px);
         }
 
-        .balance-icon {
-            font-size: 32px;
-        }
+        .balance-icon { font-size: 28px; }
 
         .energy {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(15, 23, 42, 0.3);
+            background: rgba(0,0,0,0.2);
             padding: 8px 16px;
             border-radius: 40px;
         }
 
         .energy-bar {
-            width: 90px;
-            height: 12px;
-            background: rgba(15, 23, 42, 0.2);
-            border-radius: 12px;
+            width: 80px;
+            height: 10px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
             overflow: hidden;
         }
 
         .energy-fill {
             height: 100%;
-            background: #0f172a;
-            border-radius: 12px;
-            transition: width 0.3s ease;
+            background: #fff;
+            width: 100%;
+            border-radius: 10px;
         }
 
-        .energy-text {
-            font-weight: 600;
-            min-width: 60px;
-            color: #0f172a;
-        }
-
-        /* PPH (Прибыль в час) */
-        .pph-panel {
-            background: var(--tg-theme-button-color, #d4af37);
-            border-radius: 24px;
-            padding: 12px 16px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--tg-theme-button-text-color, #0f172a);
-            font-weight: 700;
-        }
-
-        .pph-value {
-            font-size: 20px;
-            background: rgba(0,0,0,0.1);
-            padding: 4px 12px;
-            border-radius: 40px;
-        }
-
-        /* Буда */
         .buda-section {
             text-align: center;
-            margin: 20px 0 30px;
+            margin: 20px 0;
         }
 
         .buda-button {
@@ -125,242 +88,170 @@
             height: 280px;
             margin: 0 auto;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #d4af37, #b8860b);
-            box-shadow: 0 25px 40px -10px rgba(212, 175, 55, 0.6), 
-                        0 0 0 2px rgba(255, 255, 255, 0.1),
-                        inset 0 -10px 20px rgba(0, 0, 0, 0.3),
-                        inset 0 10px 20px rgba(255, 255, 255, 0.5);
+            background: radial-gradient(circle at 30% 30%, #ffd93e, #ff9f1a);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.3), 
+                       inset 0 -10px 20px rgba(0,0,0,0.3),
+                       inset 0 10px 20px rgba(255,255,255,0.5);
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: transform 0.1s ease;
+            transition: transform 0.1s, width 0.3s, height 0.3s;
+            border: 6px solid #ffaa00;
             position: relative;
             overflow: hidden;
         }
 
         .buda-button:active {
-            transform: scale(0.96);
+            transform: scale(0.95);
         }
+
+        .buda-button.level-1 { width: 240px; height: 240px; }
+        .buda-button.level-2 { width: 250px; height: 250px; }
+        .buda-button.level-3 { width: 260px; height: 260px; }
+        .buda-button.level-4 { width: 270px; height: 270px; }
+        .buda-button.level-5 { width: 280px; height: 280px; }
+        .buda-button.level-6 { width: 290px; height: 290px; }
+        .buda-button.level-7 { width: 300px; height: 300px; }
 
         .buda-emoji {
             font-size: 140px;
-            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
+            transition: font-size 0.3s;
         }
 
+        .level-1 .buda-emoji { font-size: 120px; }
+        .level-2 .buda-emoji { font-size: 130px; }
+        .level-3 .buda-emoji { font-size: 140px; }
+        .level-4 .buda-emoji { font-size: 150px; }
+        .level-5 .buda-emoji { font-size: 160px; }
+        .level-6 .buda-emoji { font-size: 170px; }
+        .level-7 .buda-emoji { font-size: 180px; }
+
         .fatness-name {
-            margin-top: 16px;
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #d4af37, #b8860b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            background: rgba(255,255,255,0.8);
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 40px;
         }
 
         .click-power {
-            margin-top: 8px;
-            font-size: 18px;
-            color: var(--tg-theme-hint-color, #94a3b8);
-            font-weight: 500;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #666;
         }
 
-        /* Улучшения */
         .upgrades-section {
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         .section-title {
             font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 18px;
+            font-weight: 900;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: var(--tg-theme-text-color, #ffffff);
+            gap: 8px;
+            color: #333;
         }
 
         .upgrades-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 20px;
+            gap: 12px;
         }
 
         .upgrade-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 28px;
-            padding: 20px 12px;
+            background: white;
+            border-radius: 25px;
+            padding: 16px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            gap: 8px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255,255,255,0.8);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.1s;
         }
 
         .upgrade-card:active {
-            transform: scale(0.96);
-            background: rgba(255, 255, 255, 0.1);
+            transform: scale(0.97);
         }
 
         .upgrade-card.disabled {
-            opacity: 0.4;
+            opacity: 0.5;
             pointer-events: none;
         }
 
-        .upgrade-emoji {
-            font-size: 42px;
-        }
-
-        .upgrade-name {
-            font-weight: 700;
-            font-size: 16px;
-            color: var(--tg-theme-text-color, #ffffff);
-        }
-
+        .upgrade-emoji { font-size: 36px; }
+        .upgrade-name { font-weight: 800; }
         .upgrade-price {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
             color: white;
-            font-weight: 700;
-            padding: 6px 18px;
-            border-radius: 40px;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 30px;
             font-size: 14px;
         }
 
-        .pph-boost {
-            font-size: 12px;
-            color: #d4af37;
-            margin-top: 4px;
-        }
-
-        /* Ежедневные задания */
-        .daily-section {
-            background: var(--tg-theme-secondary-bg-color, #1e293b);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 28px;
-            padding: 16px;
-            margin-top: 20px;
-        }
-
-        .daily-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #d4af37;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .cipher-box {
-            background: rgba(0,0,0,0.2);
+        .ref-section {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 12px;
-            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            color: white;
         }
 
-        .cipher-word {
-            font-size: 32px;
-            font-weight: 800;
-            color: #d4af37;
-            letter-spacing: 8px;
-            margin-bottom: 8px;
+        .ref-link {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            word-break: break-all;
+            margin: 10px 0;
         }
 
-        .cipher-hint {
-            font-size: 14px;
-            color: var(--tg-theme-hint-color, #94a3b8);
-            margin-bottom: 12px;
-        }
-
-        .cipher-button {
-            background: #d4af37;
+        .copy-btn {
+            background: white;
             border: none;
-            color: #0f172a;
-            padding: 12px 24px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 16px;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
             width: 100%;
         }
 
-        .cipher-button:active {
-            transform: scale(0.96);
-        }
+        .copy-btn:active { transform: scale(0.98); }
 
-        .cipher-button.completed {
-            background: #10b981;
-            color: white;
-            pointer-events: none;
-        }
-
-        .combo-cards {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .combo-card {
-            flex: 1;
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 2px solid transparent;
-        }
-
-        .combo-card.selected {
-            border-color: #d4af37;
-            background: rgba(212, 175, 55, 0.1);
-        }
-
-        .combo-card.completed {
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.1);
-            pointer-events: none;
-        }
-
-        .combo-emoji {
-            font-size: 32px;
-            margin-bottom: 4px;
-        }
-
-        .combo-name {
-            font-size: 12px;
-            color: var(--tg-theme-text-color, #ffffff);
-        }
-
-        /* Анимация клика */
         .click-effect {
             position: absolute;
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.5);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 50%;
             transform: scale(0);
             pointer-events: none;
         }
 
         .click-effect.active {
-            animation: ripple 0.5s ease-out;
+            animation: clickRipple 0.4s ease-out;
         }
 
-        @keyframes ripple {
-            0% { transform: scale(0); opacity: 0.8; }
-            100% { transform: scale(4); opacity: 0; }
+        @keyframes clickRipple {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
         }
     </style>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <div class="game-container">
-        <!-- Верхняя статистика -->
         <div class="stats-panel">
             <div class="balance">
                 <span class="balance-icon">👉</span>
@@ -371,19 +262,12 @@
                 <div class="energy-bar">
                     <div class="energy-fill" id="energyFill" style="width: 100%"></div>
                 </div>
-                <span class="energy-text" id="energyDisplay">100/100</span>
+                <span id="energyDisplay">100/100</span>
             </div>
         </div>
 
-        <!-- PPH (Прибыль в час) -->
-        <div class="pph-panel">
-            <span>💰 Прибыль в час (PPH)</span>
-            <span class="pph-value" id="pphDisplay">0</span>
-        </div>
-
-        <!-- Буда -->
         <div class="buda-section">
-            <div class="buda-button" id="budaButton">
+            <div class="buda-button level-1" id="budaButton">
                 <div class="buda-emoji" id="budaEmoji">😤</div>
                 <div class="click-effect" id="clickEffect"></div>
             </div>
@@ -391,39 +275,51 @@
             <div class="click-power" id="clickPowerDisplay">+1 за тычок</div>
         </div>
 
-        <!-- Улучшения -->
         <div class="upgrades-section">
             <div class="section-title">
                 <span>🔧</span> Прокачка Буды
             </div>
-            <div class="upgrades-grid" id="upgradesGrid"></div>
+            <div class="upgrades-grid">
+                <div class="upgrade-card" onclick="buyUpgrade('power')">
+                    <div class="upgrade-emoji">💪</div>
+                    <div class="upgrade-name">Сила тычка</div>
+                    <div class="upgrade-price" id="powerCost">100 💰</div>
+                </div>
+                <div class="upgrade-card" onclick="buyUpgrade('energy')">
+                    <div class="upgrade-emoji">🔋</div>
+                    <div class="upgrade-name">Макс. энергия</div>
+                    <div class="upgrade-price" id="energyCost">200 💰</div>
+                </div>
+                <div class="upgrade-card" onclick="buyUpgrade('regen')">
+                    <div class="upgrade-emoji">⚡</div>
+                    <div class="upgrade-name">Регенерация</div>
+                    <div class="upgrade-price" id="regenCost">300 💰</div>
+                </div>
+                <div class="upgrade-card" onclick="buyUpgrade('crit')">
+                    <div class="upgrade-emoji">🎯</div>
+                    <div class="upgrade-name">Крит. шанс</div>
+                    <div class="upgrade-price" id="critCost">500 💰</div>
+                </div>
+            </div>
         </div>
 
-        <!-- Ежедневные задания (как в Hamster Kombat) -->
-        <div class="daily-section">
-            <div class="daily-title">
-                <span>📅</span> Ежедневный шифр (Daily Cipher)
+        <div class="ref-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span><strong>👥 Рефералов: <span id="referralsCount">0</span></strong></span>
+                <span>+100 монет за друга</span>
             </div>
-            <div class="cipher-box">
-                <div class="cipher-word" id="cipherWord">•••</div>
-                <div class="cipher-hint" id="cipherHint">Введи слово азбукой Морзе</div>
-                <button class="cipher-button" id="cipherButton" onclick="claimCipher()">Забрать 1 млн 🪙</button>
-            </div>
-
-            <div class="daily-title" style="margin-top: 16px;">
-                <span>🎴</span> Ежедневная комбо (Daily Combo)
-            </div>
-            <div class="combo-cards" id="comboCards"></div>
-            <button class="cipher-button" id="comboButton" onclick="claimCombo()" style="margin-top: 12px;">Забрать 5 млн 🪙</button>
+            <div class="ref-link" id="refLink">загрузка...</div>
+            <button class="copy-btn" onclick="copyRefLink()">📋 Копировать ссылку</button>
         </div>
     </div>
 
     <script>
+        // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
 
-        // Отключаем стандартное предупреждение браузера
+        // Отключаем стандартное браузерное предупреждение
         window.onbeforeunload = null;
 
         // Данные пользователя
@@ -437,73 +333,66 @@
             critChance: 0,
             energyRegen: 1,
             premium: false,
-            pph: 0, // Profit Per Hour
-            
-            // Улучшения с пассивным доходом
-            upgrades: {
-                kyc: { level: 0, basePph: 10, price: 500 },
-                marketing: { level: 0, basePph: 25, price: 1200 },
-                legal: { level: 0, basePph: 50, price: 3000 },
-                dev: { level: 0, basePph: 100, price: 7500 }
-            },
-            
-            // Ежедневные задания (обновляются раз в сутки)
-            daily: {
-                cipherCompleted: false,
-                comboCompleted: false,
-                lastReset: Date.now()
-            }
+            referrals: 0
         };
 
         // Стадии толстоты
         const fatnessStages = [
-            { threshold: 0, name: "Буда-спичка", emoji: "😤" },
-            { threshold: 100, name: "Буда-пончик", emoji: "🍩" },
-            { threshold: 1000, name: "Буда-пухлик", emoji: "🥟" },
-            { threshold: 10000, name: "Буда-колобок", emoji: "⚪" },
-            { threshold: 100000, name: "Буда-телепузик", emoji: "🐷" },
-            { threshold: 500000, name: "Буда-бочка", emoji: "🛢️" },
-            { threshold: 1000000, name: "Буда-планета", emoji: "🌍" }
+            { threshold: 0, name: "Буда-спичка", emoji: "😤", level: 1 },
+            { threshold: 100, name: "Буда-пончик", emoji: "🍩", level: 2 },
+            { threshold: 1000, name: "Буда-пухлик", emoji: "🥟", level: 3 },
+            { threshold: 10000, name: "Буда-колобок", emoji: "⚪", level: 4 },
+            { threshold: 100000, name: "Буда-телепузик", emoji: "🐷", level: 5 },
+            { threshold: 500000, name: "Буда-бочка", emoji: "🛢️", level: 6 },
+            { threshold: 1000000, name: "Буда-планета", emoji: "🌍", level: 7 }
         ];
 
-        // ===== ЗАГРУЗКА И СОХРАНЕНИЕ (НАДЁЖНО) =====
+        // ===== ЗАГРУЗКА / СОХРАНЕНИЕ =====
         function loadData() {
-            try {
-                const saved = localStorage.getItem('budaData');
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    userData = { ...userData, ...parsed };
+            // Сначала пробуем CloudStorage
+            tg.CloudStorage.getItem('budaData', (err, data) => {
+                if (data && !err) {
+                    try {
+                        userData = { ...userData, ...JSON.parse(data) };
+                    } catch (e) {}
+                } else {
+                    // Если нет в CloudStorage, пробуем localStorage
+                    const local = localStorage.getItem('budaData');
+                    if (local) {
+                        try {
+                            userData = { ...userData, ...JSON.parse(local) };
+                        } catch (e) {}
+                    }
                 }
-            } catch (e) {
-                console.error('Ошибка загрузки', e);
-            }
-            
-            // Синхронизируем с ботом
-            sendDataToBot('sync');
-            updateDisplay();
+                updateDisplay();
+                // Сообщаем боту о синхронизации
+                sendDataToBot('sync');
+            });
         }
 
         function saveData() {
-            localStorage.setItem('budaData', JSON.stringify(userData));
+            // Сохраняем в оба места для надёжности
+            const dataStr = JSON.stringify(userData);
+            tg.CloudStorage.setItem('budaData', dataStr);
+            localStorage.setItem('budaData', dataStr);
         }
-
-        // Сохраняем перед закрытием
-        window.addEventListener('beforeunload', function() {
-            saveData();
-            sendDataToBot('sync');
-        });
 
         // Автосохранение каждые 5 секунд
         setInterval(saveData, 5000);
 
-        // Отправка данных боту
+        // Сохраняем перед выходом
+        window.addEventListener('beforeunload', () => {
+            saveData();
+            sendDataToBot('sync');
+        });
+
+        // ===== ОТПРАВКА ДАННЫХ БОТУ =====
         function sendDataToBot(action, extra = {}) {
             const payload = {
                 action: action,
                 balance: userData.balance,
                 totalClicks: userData.totalClicks,
                 totalEarned: userData.totalEarned,
-                pph: userData.pph,
                 ...extra
             };
             tg.sendData(JSON.stringify(payload));
@@ -511,134 +400,59 @@
 
         // ===== ОБНОВЛЕНИЕ ИНТЕРФЕЙСА =====
         function updateDisplay() {
-            // Основные показатели
             document.getElementById('balanceDisplay').textContent = userData.balance;
             document.getElementById('energyDisplay').textContent = `${userData.energy}/${userData.maxEnergy}`;
             document.getElementById('energyFill').style.width = `${(userData.energy / userData.maxEnergy) * 100}%`;
 
-            // Стадия толстоты
-            let stage = fatnessStages[0];
-            for (let i = fatnessStages.length - 1; i >= 0; i--) {
-                if (userData.totalClicks >= fatnessStages[i].threshold) {
-                    stage = fatnessStages[i];
-                    break;
-                }
-            }
+            const stage = fatnessStages.findLast(s => userData.totalClicks >= s.threshold) || fatnessStages[0];
             document.getElementById('budaEmoji').textContent = stage.emoji;
             document.getElementById('fatnessName').textContent = stage.name;
 
-            // Сила клика
-            let powerText = `+${userData.clickPower}`;
-            if (userData.premium) powerText += ' x2';
-            if (userData.critChance > 0) powerText += ` (крит ${userData.critChance}%)`;
+            const budaButton = document.getElementById('budaButton');
+            budaButton.className = `buda-button level-${stage.level}`;
+
+            let powerText = `+${userData.clickPower} за тычок`;
+            if (userData.premium) powerText += ' (x2)';
+            if (userData.critChance > 0) powerText += `, крит ${userData.critChance}% x3`;
             document.getElementById('clickPowerDisplay').textContent = powerText;
 
-            // PPH (прибыль в час)
-            userData.pph = calculatePPH();
-            document.getElementById('pphDisplay').textContent = userData.pph.toLocaleString();
+            document.getElementById('powerCost').textContent = `${100 * userData.clickPower} 💰`;
+            // Остальные цены фиксированные (можно менять по желанию)
+            document.getElementById('energyCost').textContent = '200 💰';
+            document.getElementById('regenCost').textContent = '300 💰';
+            document.getElementById('critCost').textContent = '500 💰';
 
-            // Отрисовка улучшений
-            renderUpgrades();
-            
-            // Ежедневные задания
-            updateDailyDisplay();
-
-            // Сохраняем
             saveData();
-        }
-
-        // ===== PPH (ПРИБЫЛЬ В ЧАС) =====
-        function calculatePPH() {
-            let total = 0;
-            for (let [key, upgrade] of Object.entries(userData.upgrades)) {
-                total += upgrade.level * upgrade.basePph;
-            }
-            return total;
-        }
-
-        // Пассивный доход (каждые 10 секунд)
-        setInterval(() => {
-            if (userData.pph > 0) {
-                // PPH / 360 = монет в секунду, *10 = за 10 секунд
-                let passiveEarn = Math.floor(userData.pph / 360) * 10;
-                if (passiveEarn > 0) {
-                    userData.balance += passiveEarn;
-                    userData.totalEarned += passiveEarn;
-                    updateDisplay();
-                }
-            }
-        }, 10000);
-
-        // ===== УЛУЧШЕНИЯ =====
-        function renderUpgrades() {
-            const grid = document.getElementById('upgradesGrid');
-            grid.innerHTML = '';
-            
-            for (let [key, upgrade] of Object.entries(userData.upgrades)) {
-                const card = document.createElement('div');
-                card.className = `upgrade-card ${userData.balance < upgrade.price ? 'disabled' : ''}`;
-                card.onclick = () => buyUpgrade(key);
-                
-                let emoji = '';
-                let name = '';
-                switch(key) {
-                    case 'kyc': emoji = '🔐'; name = 'KYC'; break;
-                    case 'marketing': emoji = '📢'; name = 'Маркетинг'; break;
-                    case 'legal': emoji = '⚖️'; name = 'Юристы'; break;
-                    case 'dev': emoji = '💻'; name = 'Разработка'; break;
-                }
-                
-                card.innerHTML = `
-                    <div class="upgrade-emoji">${emoji}</div>
-                    <div class="upgrade-name">${name} Lv.${upgrade.level}</div>
-                    <div class="pph-boost">+${upgrade.basePph} PPH/ур</div>
-                    <div class="upgrade-price">${upgrade.price} 🪙</div>
-                `;
-                grid.appendChild(card);
-            }
-        }
-
-        function buyUpgrade(key) {
-            const upgrade = userData.upgrades[key];
-            if (userData.balance >= upgrade.price) {
-                userData.balance -= upgrade.price;
-                upgrade.level++;
-                upgrade.price = Math.floor(upgrade.price * 1.5); // цена растёт
-                
-                updateDisplay();
-                sendDataToBot('upgrade', { type: key });
-                
-                tg.HapticFeedback?.notificationOccurred('success');
-            } else {
-                tg.HapticFeedback?.notificationOccurred('error');
-            }
         }
 
         // ===== КЛИК ПО БУДЕ =====
         document.getElementById('budaButton').addEventListener('click', (e) => {
             if (userData.energy <= 0) {
                 tg.HapticFeedback?.notificationOccurred('error');
+                tg.showPopup({
+                    title: '😴 Буда устал',
+                    message: 'Подожди, пока восстановится энергия!',
+                    buttons: [{ type: 'ok' }]
+                });
                 return;
             }
 
             // Анимация
             const button = e.currentTarget;
-            button.style.transform = 'scale(0.96)';
+            button.style.transform = 'scale(0.95)';
             setTimeout(() => button.style.transform = 'scale(1)', 100);
 
-            // Эффект
             const rect = button.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const effect = document.getElementById('clickEffect');
-            effect.style.left = x - 40 + 'px';
-            effect.style.top = y - 40 + 'px';
+            effect.style.left = x - 30 + 'px';
+            effect.style.top = y - 30 + 'px';
             effect.classList.add('active');
-            setTimeout(() => effect.classList.remove('active'), 500);
+            setTimeout(() => effect.classList.remove('active'), 400);
 
             tg.HapticFeedback?.impactOccurred('medium');
 
-            // Расчёт дохода
             let earned = userData.clickPower;
             if (userData.premium) earned *= 2;
             if (Math.random() * 100 < userData.critChance) {
@@ -653,106 +467,88 @@
 
             updateDisplay();
             sendDataToBot('click', { earned });
+
+            // Проверка на новую стадию
+            const oldStage = fatnessStages.findLast(s => (userData.totalClicks - 1) >= s.threshold)?.level || 1;
+            const newStage = fatnessStages.findLast(s => userData.totalClicks >= s.threshold)?.level || 1;
+            if (newStage > oldStage) {
+                tg.HapticFeedback?.notificationOccurred('success');
+                tg.showPopup({
+                    title: '🎉 Буда потолстел!',
+                    message: `Поздравляю! Буда достиг стадии: ${fatnessStages.find(s => s.level === newStage).name}`,
+                    buttons: [{ type: 'ok' }]
+                });
+            }
         });
 
-        // ===== ЕЖЕДНЕВНЫЕ ЗАДАНИЯ (КАК В HAMSTER KOMBAT) =====
-        const DAILY_WORDS = [
-            { word: "HAMSTER", morse: ".... .- -- ... - . .-.", date: 20260310 },
-            { word: "BUDA", morse: "-... ..- -.. .-", date: 20260310 },
-            { word: "COIN", morse: "-.-. --- .. -.", date: 20260310 }
-        ];
-
-        function updateDailyDisplay() {
-            // Проверяем, не пора ли сбросить (новый день)
-            const now = Date.now();
-            const oneDay = 24 * 60 * 60 * 1000;
-            if (now - userData.daily.lastReset > oneDay) {
-                userData.daily.cipherCompleted = false;
-                userData.daily.comboCompleted = false;
-                userData.daily.lastReset = now;
+        // ===== УЛУЧШЕНИЯ =====
+        function buyUpgrade(type) {
+            let cost = 0;
+            switch(type) {
+                case 'power':
+                    cost = 100 * userData.clickPower;
+                    if (userData.balance >= cost) {
+                        userData.balance -= cost;
+                        userData.clickPower++;
+                    }
+                    break;
+                case 'energy':
+                    cost = 200;
+                    if (userData.balance >= cost) {
+                        userData.balance -= cost;
+                        userData.maxEnergy += 50;
+                        userData.energy += 50;
+                    }
+                    break;
+                case 'regen':
+                    cost = 300;
+                    if (userData.balance >= cost) {
+                        userData.balance -= cost;
+                        userData.energyRegen++;
+                    }
+                    break;
+                case 'crit':
+                    cost = 500;
+                    if (userData.balance >= cost) {
+                        userData.balance -= cost;
+                        userData.critChance += 5;
+                    }
+                    break;
             }
-
-            // Шифр
-            const cipherBtn = document.getElementById('cipherButton');
-            if (userData.daily.cipherCompleted) {
-                cipherBtn.textContent = '✅ Уже забрано';
-                cipherBtn.classList.add('completed');
+            if (cost > 0 && userData.balance >= cost) {
+                tg.HapticFeedback?.notificationOccurred('success');
+                updateDisplay();
+                sendDataToBot('upgrade', { type });
             } else {
-                cipherBtn.textContent = 'Забрать 1 млн 🪙';
-                cipherBtn.classList.remove('completed');
-            }
-
-            // Комбо-карты (три случайные карты)
-            const comboDiv = document.getElementById('comboCards');
-            const cards = [
-                { emoji: '🔐', name: 'KYC', letter: 'K' },
-                { emoji: '📢', name: 'Маркетинг', letter: 'M' },
-                { emoji: '⚖️', name: 'Юристы', letter: 'L' },
-                { emoji: '💻', name: 'Разработка', letter: 'D' },
-                { emoji: '🏦', name: 'Банк', letter: 'B' },
-                { emoji: '📊', name: 'Аналитика', letter: 'A' }
-            ];
-            
-            // Берём три случайные карты с одинаковой буквой (для комбо)
-            const letters = ['K', 'M', 'L', 'D', 'B', 'A'];
-            const comboLetter = letters[Math.floor(Math.random() * letters.length)];
-            const selectedCards = cards.filter(c => c.letter === comboLetter).slice(0, 3);
-            
-            comboDiv.innerHTML = '';
-            selectedCards.forEach((card, index) => {
-                const cardDiv = document.createElement('div');
-                cardDiv.className = `combo-card ${userData.daily.comboCompleted ? 'completed' : ''}`;
-                cardDiv.onclick = () => selectComboCard(index);
-                cardDiv.innerHTML = `
-                    <div class="combo-emoji">${card.emoji}</div>
-                    <div class="combo-name">${card.name}</div>
-                `;
-                comboDiv.appendChild(cardDiv);
-            });
-
-            const comboBtn = document.getElementById('comboButton');
-            if (userData.daily.comboCompleted) {
-                comboBtn.textContent = '✅ Уже забрано';
-                comboBtn.classList.add('completed');
-            } else {
-                comboBtn.textContent = 'Забрать 5 млн 🪙';
-                comboBtn.classList.remove('completed');
+                tg.HapticFeedback?.notificationOccurred('error');
             }
         }
 
-        window.claimCipher = function() {
-            if (!userData.daily.cipherCompleted) {
-                userData.balance += 1000000;
-                userData.totalEarned += 1000000;
-                userData.daily.cipherCompleted = true;
-                updateDisplay();
-                sendDataToBot('daily', { type: 'cipher', reward: 1000000 });
-                tg.HapticFeedback?.notificationOccurred('success');
-                tg.showPopup({
-                    title: '🎉 +1 млн монет!',
-                    message: 'Шифр разгадан!',
-                    buttons: [{ type: 'ok' }]
-                });
-            }
+        // ===== РЕФЕРАЛЫ =====
+        const userId = tg.initDataUnsafe.user?.id || 0;
+        const botUsername = 'budka_click_bot';
+        const refLink = `https://t.me/${botUsername}?start=ref_${userId}`;
+        document.getElementById('refLink').textContent = refLink;
+
+        window.copyRefLink = function() {
+            navigator.clipboard.writeText(refLink);
+            tg.HapticFeedback?.notificationOccurred('success');
+            tg.showPopup({
+                title: '✅ Скопировано!',
+                message: 'Отправь друзьям и получай +100 монет за каждого!',
+                buttons: [{ type: 'ok' }]
+            });
         };
 
-        window.claimCombo = function() {
-            if (!userData.daily.comboCompleted) {
-                userData.balance += 5000000;
-                userData.totalEarned += 5000000;
-                userData.daily.comboCompleted = true;
+        // ===== РЕГЕНЕРАЦИЯ ЭНЕРГИИ =====
+        setInterval(() => {
+            if (userData.energy < userData.maxEnergy) {
+                userData.energy = Math.min(userData.maxEnergy, userData.energy + userData.energyRegen);
                 updateDisplay();
-                sendDataToBot('daily', { type: 'combo', reward: 5000000 });
-                tg.HapticFeedback?.notificationOccurred('success');
-                tg.showPopup({
-                    title: '🔥 +5 млн монет!',
-                    message: 'Комбо собрано!',
-                    buttons: [{ type: 'ok' }]
-                });
             }
-        };
+        }, 1000);
 
-        // ===== ЗАПУСК =====
+        // ===== СТАРТ =====
         loadData();
     </script>
 </body>
