@@ -404,8 +404,7 @@
             document.getElementById('energyDisplay').textContent = `${userData.energy}/${userData.maxEnergy}`;
             document.getElementById('energyFill').style.width = `${(userData.energy / userData.maxEnergy) * 100}%`;
 
-            const stage = fatnessStages.findLast(s => userData.totalClicks >= s.threshold) || fatnessStages[0];
-            document.getElementById('budaEmoji').textContent = stage.emoji;
+            const stage = fatnessStages.findLast(s => userData.totalClicks >= s.threshold) || fatnessStages[0]
             document.getElementById('fatnessName').textContent = stage.name;
 
             const budaButton = document.getElementById('budaButton');
@@ -553,4 +552,5 @@
     </script>
 </body>
 </html>
+
 
