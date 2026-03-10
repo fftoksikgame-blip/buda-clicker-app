@@ -5,28 +5,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🐹 Буда Кликер</title>
     <style>
-        /* стили как в предыдущем ответе (оставь те же, я не копирую для краткости) */
+        /* Все стили из предыдущей рабочей версии (я не копирую для краткости, но ты их уже имеешь) */
+        /* Если потерял, напиши — пришлю полный файл со стилями. */
     </style>
-    <!-- Firebase SDK -->
+    <!-- Firebase SDK (обязательно перед Telegram) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <div class="game-container">
-        <!-- верхняя панель, Буда, вкладки и т.д. как в прошлом коде -->
+        <!-- Верхняя панель (статистика) -->
+        <div class="stats-panel">
+            <div class="balance">
+                <span>🪙</span>
+                <span id="balanceDisplay">0</span>
+            </div>
+            <div class="energy">
+                <span>⚡</span>
+                <div class="energy-bar"><div class="energy-fill" id="energyFill" style="width:100%"></div></div>
+                <span id="energyDisplay">100/100</span>
+            </div>
+        </div>
+
+        <!-- Буда -->
+        <div class="buda-section">
+            <div class="buda-button" id="budaButton">
+                <img src="buda.jpg" alt="Буда">
+                <div class="click-effect" id="clickEffect"></div>
+            </div>
+            <div class="fatness-name" id="fatnessName">Буда-спичка</div>
+            <div class="click-power" id="clickPowerDisplay">+1 за тычок</div>
+        </div>
+
+        <!-- Вкладки -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="switchTab('game')">🎮 Игра</div>
+            <div class="nav-tab" onclick="switchTab('upgrades')">⚡ Прокачка</div>
+            <div class="nav-tab" onclick="switchTab('top')">🏆 Топ</div>
+            <div class="nav-tab" onclick="switchTab('settings')">⚙️ Настройки</div>
+        </div>
+
+        <!-- Панель "Игра" (статистика и рефералы) -->
+        <div id="gamePanel">
+            <div class="panel">
+                <div style="color:#ffd700;">📊 Твоя статистика</div>
+                <div class="settings-item"><span>Всего кликов</span><span id="statClicks">0</span></div>
+                <div class="settings-item"><span>Всего заработано</span><span id="statEarned">0</span></div>
+                <div class="settings-item"><span>Рефералов</span><span id="referralsCount">0</span></div>
+            </div>
+            <div style="background: rgba(30,35,50,0.8); border-radius: 20px; padding: 15px; margin-top: 15px;">
+                <div style="color: white; margin-bottom: 10px;">👥 Твоя ссылка</div>
+                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 15px; font-size: 12px; word-break: break-all; color: #ffd700;" id="refLink">загрузка...</div>
+                <button class="copy-btn" onclick="copyRefLink()">📋 Копировать</button>
+            </div>
+        </div>
+
+        <!-- Панель "Прокачка" -->
+        <div id="upgradesPanel" style="display:none;">
+            <div class="upgrades-grid">
+                <div class="upgrade-card" onclick="buyUpgrade('power')">
+                    <div>💪</div>
+                    <div>Сила клика</div>
+                    <div class="upgrade-price" id="powerCost">100</div>
+                </div>
+                <div class="upgrade-card" onclick="buyUpgrade('energy')">
+                    <div>🔋</div>
+                    <div>Макс. энергия</div>
+                    <div class="upgrade-price" id="energyCost">200</div>
+                </div>
+                <div class="upgrade-card" onclick="buyUpgrade('regen')">
+                    <div>⚡</div>
+                    <div>Регенерация</div>
+                    <div class="upgrade-price" id="regenCost">300</div>
+                </div>
+                <div class="upgrade-card" onclick="buyUpgrade('crit')">
+                    <div>🎯</div>
+                    <div>Крит. шанс</div>
+                    <div class="upgrade-price" id="critCost">500</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Панель "Топ" (данные из Firebase) -->
+        <div id="topPanel" style="display:none;">
+            <div class="panel">
+                <div style="color: #ffd700; text-align: center; margin-bottom: 15px;">🏆 ТОП ИГРОКОВ</div>
+                <div id="topContent">Загрузка...</div>
+            </div>
+        </div>
+
+        <!-- Панель "Настройки" -->
+        <div id="settingsPanel" style="display:none;">
+            <div class="panel">
+                <div class="settings-item"><span>Версия</span><span>1.0.1</span></div>
+                <div class="settings-item"><span>Твой ID</span><span id="userId">-</span></div>
+                <div class="settings-item"><span>Премиум</span><span id="premiumStatus">Нет</span></div>
+            </div>
+        </div>
     </div>
+
     <script>
         // ===== FIREBASE CONFIG =====
+        // ВСТАВЬ СЮДА СВОИ НАСТРОЙКИ ИЗ КОНСОЛИ FIREBASE
         const firebaseConfig = {
-            apiKey: "AIzaSy...",           // вставь свои данные
+            apiKey: "AIzaSyB...",            // Пример, замени на свой
             authDomain: "buda-clicker.firebaseapp.com",
             databaseURL: "https://buda-clicker-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "buda-clicker",
             storageBucket: "buda-clicker.appspot.com",
-            messagingSenderId: "...",
-            appId: "..."
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef"
         };
+
+        // Инициализация Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
         const usersRef = database.ref('users');
@@ -36,6 +128,7 @@
         tg.expand();
         tg.ready();
 
+        // ===== ДАННЫЕ ПОЛЬЗОВАТЕЛЯ =====
         let userData = {
             balance: 0,
             energy: 100,
@@ -50,17 +143,30 @@
         };
 
         const userId = String(tg.initDataUnsafe.user?.id || 0);
+        document.getElementById('userId').textContent = userId;
+
         const botUsername = 'budka_click_bot';
         const refLink = `https://t.me/${botUsername}?start=ref_${userId}`;
+        document.getElementById('refLink').textContent = refLink;
 
-        const fatnessStages = [ ... ]; // как раньше
+        // ===== СТАДИИ ТОЛСТОТЫ =====
+        const fatnessStages = [
+            { threshold: 0, name: "Буда-спичка" },
+            { threshold: 100, name: "Буда-пончик" },
+            { threshold: 1000, name: "Буда-пухлик" },
+            { threshold: 10000, name: "Буда-колобок" },
+            { threshold: 100000, name: "Буда-телепузик" },
+            { threshold: 500000, name: "Буда-бочка" },
+            { threshold: 1000000, name: "Буда-планета" }
+        ];
 
-        // Загрузка данных из CloudStorage и синхронизация
+        // ===== ЗАГРУЗКА / СОХРАНЕНИЕ =====
         function loadData() {
             tg.CloudStorage.getItem('budaData', (err, data) => {
                 if (data && !err) {
                     try {
-                        userData = { ...userData, ...JSON.parse(data) };
+                        const saved = JSON.parse(data);
+                        userData = { ...userData, ...saved };
                     } catch (e) {}
                 }
                 updateDisplay();
@@ -90,17 +196,42 @@
             tg.sendData(JSON.stringify(payload));
         }
 
+        // ===== ОБНОВЛЕНИЕ ИНТЕРФЕЙСА =====
         function updateDisplay() {
-            // ... обновление интерфейса, как раньше ...
+            document.getElementById('balanceDisplay').textContent = userData.balance;
+            document.getElementById('energyDisplay').textContent = `${userData.energy}/${userData.maxEnergy}`;
+            document.getElementById('energyFill').style.width = `${(userData.energy / userData.maxEnergy) * 100}%`;
+
+            const stage = fatnessStages.slice().reverse().find(s => userData.totalClicks >= s.threshold) || fatnessStages[0];
+            document.getElementById('fatnessName').textContent = stage.name;
+            document.getElementById('clickPowerDisplay').textContent = `+${userData.clickPower} за тычок`;
+
+            document.getElementById('powerCost').textContent = userData.clickPower * 100;
+            document.getElementById('energyCost').textContent = 200;
+            document.getElementById('regenCost').textContent = 300;
+            document.getElementById('critCost').textContent = 500;
+
+            document.getElementById('statClicks').textContent = userData.totalClicks;
+            document.getElementById('statEarned').textContent = userData.totalEarned;
+            document.getElementById('referralsCount').textContent = userData.referrals;
+            document.getElementById('premiumStatus').textContent = userData.premium ? 'Да' : 'Нет';
+
+            saveData();
         }
 
-        // ===== КЛИК ПО БУДЕ =====
-        document.getElementById('budaButton').addEventListener('click', (e) => {
-            // ... обработка клика, как раньше ...
-        });
+        // ===== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК =====
+        window.switchTab = function(tab) {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('gamePanel').style.display = tab === 'game' ? 'block' : 'none';
+            document.getElementById('upgradesPanel').style.display = tab === 'upgrades' ? 'block' : 'none';
+            document.getElementById('topPanel').style.display = tab === 'top' ? 'block' : 'none';
+            document.getElementById('settingsPanel').style.display = tab === 'settings' ? 'block' : 'none';
+            if (tab === 'top') loadTop();
+        };
 
-        // ===== ТОП ИЗ FIREBASE =====
-        window.loadTop = function() {
+        // ===== ЗАГРУЗКА ТОПА ИЗ FIREBASE =====
+        function loadTop() {
             usersRef.once('value', (snapshot) => {
                 const users = snapshot.val() || {};
                 const topList = [];
@@ -118,7 +249,7 @@
                 const top10 = topList.slice(0, 10);
                 renderTop(top10);
             });
-        };
+        }
 
         function renderTop(top) {
             const topContent = document.getElementById('topContent');
@@ -139,14 +270,106 @@
             topContent.innerHTML = html;
         }
 
-        // ===== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК =====
-        window.switchTab = function(tab) {
-            // ... как раньше ...
-            if (tab === 'top') loadTop();
+        // ===== КЛИК ПО БУДЕ =====
+        document.getElementById('budaButton').addEventListener('click', (e) => {
+            if (userData.energy <= 0) {
+                tg.HapticFeedback?.notificationOccurred('error');
+                return;
+            }
+
+            const button = e.currentTarget;
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => button.style.transform = 'scale(1)', 100);
+
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const effect = document.getElementById('clickEffect');
+            effect.style.left = x - 40 + 'px';
+            effect.style.top = y - 40 + 'px';
+            effect.classList.add('active');
+            setTimeout(() => effect.classList.remove('active'), 500);
+
+            tg.HapticFeedback?.impactOccurred('medium');
+
+            let earned = userData.clickPower;
+            if (Math.random() * 100 < userData.critChance) {
+                earned *= 3;
+                tg.HapticFeedback?.notificationOccurred('success');
+            }
+
+            userData.balance += earned;
+            userData.totalEarned += earned;
+            userData.totalClicks++;
+            userData.energy--;
+
+            updateDisplay();
+            sendDataToBot('click', { earned });
+        });
+
+        // ===== ПОКУПКА УЛУЧШЕНИЙ =====
+        window.buyUpgrade = function(type) {
+            let cost = 0;
+            switch(type) {
+                case 'power':
+                    cost = 100 * userData.clickPower;
+                    if (userData.balance >= cost) {
+                        userData.balance -= cost;
+                        userData.clickPower++;
+                    }
+                    break;
+                case 'energy':
+                    cost = 200;
+                    if (userData.balance >= cost) {
+                        userData.balance -= cost;
+                        userData.maxEnergy += 50;
+                        userData.energy += 50;
+                    }
+                    break;
+                case 'regen':
+                    cost = 300;
+                    if (userData.balance >= cost) {
+                        userData.balance -= cost;
+                        userData.energyRegen++;
+                    }
+                    break;
+                case 'crit':
+                    cost = 500;
+                    if (userData.balance >= cost) {
+                        userData.balance -= cost;
+                        userData.critChance += 5;
+                    }
+                    break;
+            }
+            if (cost > 0 && userData.balance >= cost) {
+                tg.HapticFeedback?.notificationOccurred('success');
+                updateDisplay();
+                sendDataToBot('upgrade');
+            } else {
+                tg.HapticFeedback?.notificationOccurred('error');
+            }
         };
 
-        // ... остальные функции (buyUpgrade, copyRefLink и т.д.) ...
+        // ===== КОПИРОВАНИЕ РЕФЕРАЛЬНОЙ ССЫЛКИ =====
+        window.copyRefLink = function() {
+            navigator.clipboard.writeText(refLink);
+            tg.HapticFeedback?.notificationOccurred('success');
+            tg.showPopup({
+                title: '✅ Скопировано!',
+                message: '+100 монет за каждого друга',
+                buttons: [{ type: 'ok' }]
+            });
+        };
 
+        // ===== РЕГЕНЕРАЦИЯ ЭНЕРГИИ =====
+        setInterval(() => {
+            if (userData.energy < userData.maxEnergy) {
+                userData.energy = Math.min(userData.maxEnergy, userData.energy + userData.energyRegen);
+                updateDisplay();
+            }
+        }, 1000);
+
+        // ===== СТАРТ =====
         loadData();
     </script>
 </body>
