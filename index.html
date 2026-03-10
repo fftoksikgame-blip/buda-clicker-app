@@ -12,7 +12,7 @@
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
-
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: linear-gradient(145deg, #0b0e14 0%, #1a1f2c 100%);
@@ -26,24 +26,24 @@
         .game-container {
             max-width: 450px;
             width: 100%;
-            background: rgba(20, 25, 35, 0.9);
+            background: rgba(20, 25, 35, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 48px;
             padding: 24px 20px 32px;
             border: 1px solid rgba(255, 215, 0, 0.2);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         }
 
+        /* Верхняя панель */
         .stats-panel {
             background: linear-gradient(135deg, #2a2f45 0%, #1e2338 100%);
             border-radius: 32px;
             padding: 20px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border: 1px solid rgba(255, 215, 0, 0.3);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
         }
 
         .balance {
@@ -56,11 +56,6 @@
             padding: 8px 20px;
             border-radius: 40px;
             color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-
-        .balance-icon {
-            font-size: 32px;
         }
 
         .energy {
@@ -86,18 +81,12 @@
             background: linear-gradient(90deg, #4ade80, #22c55e);
             border-radius: 12px;
             transition: width 0.3s ease;
-            box-shadow: 0 0 10px #4ade80;
         }
 
-        .energy-text {
-            font-weight: 600;
-            min-width: 60px;
-            color: #4ade80;
-        }
-
+        /* Буда */
         .buda-section {
             text-align: center;
-            margin: 20px 0 30px;
+            margin: 20px 0;
         }
 
         .buda-button {
@@ -106,9 +95,7 @@
             margin: 0 auto;
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
-            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 
-                        0 0 30px rgba(255, 215, 0, 0.6),
-                        inset 0 -10px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.5), 0 0 30px rgba(255,215,0,0.3);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -116,7 +103,6 @@
             transition: transform 0.1s ease;
             position: relative;
             overflow: hidden;
-            border: 4px solid rgba(255, 255, 255, 0.2);
         }
 
         .buda-button:active {
@@ -131,127 +117,136 @@
         }
 
         .fatness-name {
-            margin-top: 16px;
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffd700, #fbbf24);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-
-        .click-power {
-            margin-top: 8px;
-            font-size: 18px;
-            color: #9ca3af;
-            font-weight: 500;
-        }
-
-        .upgrades-section {
-            margin-top: 20px;
-        }
-
-        .section-title {
+            margin-top: 12px;
             font-size: 22px;
             font-weight: 800;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            color: #ffd700;
         }
 
+        /* Навигация */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 25px 0 15px;
+        }
+
+        .nav-tab {
+            flex: 1;
+            background: rgba(30, 35, 50, 0.8);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 30px;
+            padding: 12px;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-tab.active {
+            background: #ffd700;
+            color: #0b0e14;
+            border-color: #ffd700;
+        }
+
+        /* Панели */
+        .panel {
+            background: rgba(30, 35, 50, 0.8);
+            border-radius: 30px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .top-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .top-rank {
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            background: #ffd700;
+            color: #0b0e14;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        .top-name {
+            flex: 1;
+            margin-left: 12px;
+            color: white;
+        }
+
+        .top-clicks {
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* Улучшения */
         .upgrades-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
+            gap: 12px;
+            margin: 15px 0;
         }
 
         .upgrade-card {
-            background: rgba(30, 35, 50, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 28px;
-            padding: 20px 12px;
+            background: rgba(20, 25, 35, 0.9);
+            border-radius: 24px;
+            padding: 16px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             border: 1px solid rgba(255, 215, 0, 0.2);
             cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         .upgrade-card:active {
             transform: scale(0.96);
-            background: rgba(40, 45, 65, 0.9);
-            border-color: rgba(255, 215, 0, 0.5);
-        }
-
-        .upgrade-card.disabled {
-            opacity: 0.4;
-            pointer-events: none;
-        }
-
-        .upgrade-emoji {
-            font-size: 42px;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
-        }
-
-        .upgrade-name {
-            font-weight: 700;
-            font-size: 16px;
-            color: white;
         }
 
         .upgrade-price {
-            background: linear-gradient(135deg, #ffd700, #b8860b);
+            background: #ffd700;
             color: #0b0e14;
             font-weight: 700;
-            padding: 6px 18px;
-            border-radius: 40px;
-            font-size: 14px;
-            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
-        }
-
-        .ref-section {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            border-radius: 28px;
-            padding: 18px;
-            margin-top: 25px;
-            color: white;
-            box-shadow: 0 15px 25px -8px rgba(59, 130, 246, 0.5);
-        }
-
-        .ref-link {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 12px;
+            padding: 5px 15px;
             border-radius: 20px;
-            font-size: 12px;
-            word-break: break-all;
-            margin: 12px 0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
+        /* Кнопка копирования */
         .copy-btn {
-            background: white;
+            background: #ffd700;
             border: none;
-            color: #2563eb;
+            color: #0b0e14;
             padding: 12px 20px;
-            border-radius: 20px;
+            border-radius: 30px;
             font-weight: 700;
             font-size: 16px;
             cursor: pointer;
             width: 100%;
-            transition: all 0.2s;
+            margin-top: 12px;
         }
 
         .copy-btn:active {
             transform: scale(0.96);
-            background: #f3f4f6;
         }
 
+        /* Анимация клика */
         .click-effect {
             position: absolute;
             width: 80px;
@@ -260,7 +255,6 @@
             border-radius: 50%;
             transform: scale(0);
             pointer-events: none;
-            backdrop-filter: blur(5px);
         }
 
         .click-effect.active {
@@ -276,9 +270,10 @@
 </head>
 <body>
     <div class="game-container">
+        <!-- Верхняя панель -->
         <div class="stats-panel">
             <div class="balance">
-                <span class="balance-icon">🪙</span>
+                <span>🪙</span>
                 <span id="balanceDisplay">0</span>
             </div>
             <div class="energy">
@@ -286,10 +281,11 @@
                 <div class="energy-bar">
                     <div class="energy-fill" id="energyFill" style="width: 100%"></div>
                 </div>
-                <span class="energy-text" id="energyDisplay">100/100</span>
+                <span id="energyDisplay">100/100</span>
             </div>
         </div>
 
+        <!-- Буда -->
         <div class="buda-section">
             <div class="buda-button" id="budaButton">
                 <img src="buda.jpg" alt="Буда" id="budaImage">
@@ -299,10 +295,41 @@
             <div class="click-power" id="clickPowerDisplay">+1 за тычок</div>
         </div>
 
-        <div class="upgrades-section">
-            <div class="section-title">
-                <span>⚡</span> Прокачка
+        <!-- Навигация -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="switchTab('game')">🎮 Игра</div>
+            <div class="nav-tab" onclick="switchTab('upgrades')">⚡ Прокачка</div>
+            <div class="nav-tab" onclick="switchTab('top')">🏆 Топ</div>
+            <div class="nav-tab" onclick="switchTab('settings')">⚙️ Настройки</div>
+        </div>
+
+        <!-- Панель игры (по умолчанию активна) -->
+        <div id="gamePanel">
+            <div class="panel">
+                <div style="color: #ffd700; margin-bottom: 15px;">📊 Твоя статистика</div>
+                <div class="settings-item">
+                    <span>Всего кликов</span>
+                    <span id="statClicks">0</span>
+                </div>
+                <div class="settings-item">
+                    <span>Всего заработано</span>
+                    <span id="statEarned">0</span>
+                </div>
+                <div class="settings-item">
+                    <span>Рефералов</span>
+                    <span id="referralsCount">0</span>
+                </div>
             </div>
+            
+            <div class="ref-link" style="background: rgba(30, 35, 50, 0.8); border-radius: 20px; padding: 15px; margin-top: 15px;">
+                <div style="color: white; margin-bottom: 10px;">👥 Твоя реферальная ссылка</div>
+                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 15px; font-size: 12px; word-break: break-all; color: #ffd700;" id="refLink">загрузка...</div>
+                <button class="copy-btn" onclick="copyRefLink()">📋 Копировать</button>
+            </div>
+        </div>
+
+        <!-- Панель прокачки (скрыта) -->
+        <div id="upgradesPanel" style="display: none;">
             <div class="upgrades-grid">
                 <div class="upgrade-card" onclick="buyUpgrade('power')">
                     <div class="upgrade-emoji">💪</div>
@@ -327,13 +354,26 @@
             </div>
         </div>
 
-        <div class="ref-section">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <span><strong>👥 Рефералов: <span id="referralsCount">0</span></strong></span>
-                <span>+100 за друга</span>
+        <!-- Панель топа (скрыта) -->
+        <div id="topPanel" style="display: none;">
+            <div class="panel" id="topList">
+                <div style="color: #ffd700; text-align: center; margin-bottom: 15px;">🏆 ТОП ИГРОКОВ</div>
+                <div id="topContent">Загрузка...</div>
             </div>
-            <div class="ref-link" id="refLink">загрузка...</div>
-            <button class="copy-btn" onclick="copyRefLink()">📋 Копировать ссылку</button>
+        </div>
+
+        <!-- Панель настроек (скрыта) -->
+        <div id="settingsPanel" style="display: none;">
+            <div class="panel">
+                <div class="settings-item">
+                    <span>Версия</span>
+                    <span>1.0.0</span>
+                </div>
+                <div class="settings-item">
+                    <span>Твой ID</span>
+                    <span id="userId">-</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -341,7 +381,6 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
-        window.onbeforeunload = null;
 
         let userData = {
             balance: 0,
@@ -355,21 +394,28 @@
             referrals: 0
         };
 
+        // Топ игроков (будет заполняться с сервера)
+        let topPlayers = [];
+
         const userId = tg.initDataUnsafe.user?.id || 0;
+        document.getElementById('userId').textContent = userId;
+
         const botUsername = 'budka_click_bot';
         const refLink = `https://t.me/${botUsername}?start=ref_${userId}`;
         document.getElementById('refLink').textContent = refLink;
 
+        // Стадии толстоты
         const fatnessStages = [
-            { threshold: 0, name: "Буда-спичка", emoji: "😤" },
-            { threshold: 100, name: "Буда-пончик", emoji: "🍩" },
-            { threshold: 1000, name: "Буда-пухлик", emoji: "🥟" },
-            { threshold: 10000, name: "Буда-колобок", emoji: "⚪" },
-            { threshold: 100000, name: "Буда-телепузик", emoji: "🐷" },
-            { threshold: 500000, name: "Буда-бочка", emoji: "🛢️" },
-            { threshold: 1000000, name: "Буда-планета", emoji: "🌍" }
+            { threshold: 0, name: "Буда-спичка" },
+            { threshold: 100, name: "Буда-пончик" },
+            { threshold: 1000, name: "Буда-пухлик" },
+            { threshold: 10000, name: "Буда-колобок" },
+            { threshold: 100000, name: "Буда-телепузик" },
+            { threshold: 500000, name: "Буда-бочка" },
+            { threshold: 1000000, name: "Буда-планета" }
         ];
 
+        // Загрузка данных
         function loadData() {
             tg.CloudStorage.getItem('budaData', (err, data) => {
                 if (data && !err) {
@@ -380,7 +426,40 @@
                 }
                 updateDisplay();
                 sendDataToBot('sync');
+                loadTop();
             });
+        }
+
+        // Загрузка топа с сервера
+        function loadTop() {
+            // Здесь должен быть запрос к твоему бэкенду
+            // Пока для примера заглушка
+            topPlayers = [
+                { name: "Игрок 1", clicks: 1500 },
+                { name: "Игрок 2", clicks: 1200 },
+                { name: "Игрок 3", clicks: 900 }
+            ];
+            renderTop();
+        }
+
+        function renderTop() {
+            const topContent = document.getElementById('topContent');
+            if (topPlayers.length === 0) {
+                topContent.innerHTML = '<div style="text-align: center; color: #888;">Топ пока пуст</div>';
+                return;
+            }
+            
+            let html = '';
+            topPlayers.forEach((player, index) => {
+                html += `
+                    <div class="top-item">
+                        <div class="top-rank">${index + 1}</div>
+                        <div class="top-name">${player.name}</div>
+                        <div class="top-clicks">${player.clicks}</div>
+                    </div>
+                `;
+            });
+            topContent.innerHTML = html;
         }
 
         function saveData() {
@@ -413,19 +492,33 @@
             const stage = fatnessStages.slice().reverse().find(s => userData.totalClicks >= s.threshold) || fatnessStages[0];
             document.getElementById('fatnessName').textContent = stage.name;
 
-            let powerText = `+${userData.clickPower}`;
-            if (userData.critChance > 0) powerText += ` (крит ${userData.critChance}%)`;
-            document.getElementById('clickPowerDisplay').textContent = powerText;
-
+            document.getElementById('clickPowerDisplay').textContent = `+${userData.clickPower} за тычок`;
             document.getElementById('powerCost').textContent = userData.clickPower * 100;
             document.getElementById('energyCost').textContent = 200;
             document.getElementById('regenCost').textContent = 300;
             document.getElementById('critCost').textContent = 500;
+            
+            document.getElementById('statClicks').textContent = userData.totalClicks;
+            document.getElementById('statEarned').textContent = userData.totalEarned;
             document.getElementById('referralsCount').textContent = userData.referrals;
 
             saveData();
         }
 
+        // Переключение вкладок
+        window.switchTab = function(tab) {
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('gamePanel').style.display = tab === 'game' ? 'block' : 'none';
+            document.getElementById('upgradesPanel').style.display = tab === 'upgrades' ? 'block' : 'none';
+            document.getElementById('topPanel').style.display = tab === 'top' ? 'block' : 'none';
+            document.getElementById('settingsPanel').style.display = tab === 'settings' ? 'block' : 'none';
+            
+            if (tab === 'top') loadTop();
+        };
+
+        // Клик по Буде
         document.getElementById('budaButton').addEventListener('click', (e) => {
             if (userData.energy <= 0) {
                 tg.HapticFeedback?.notificationOccurred('error');
@@ -509,7 +602,7 @@
             tg.HapticFeedback?.notificationOccurred('success');
             tg.showPopup({
                 title: '✅ Скопировано!',
-                message: 'Отправь друзьям и получай +100 монет!',
+                message: '+100 монет за каждого друга',
                 buttons: [{ type: 'ok' }]
             });
         };
