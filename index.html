@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🍔 Буда Кликер</title>
+    <title>🐹 Буда Кликер</title>
     <style>
         * {
             margin: 0;
@@ -14,73 +14,90 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(145deg, #0b0e14 0%, #1a1f2c 100%);
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 12px;
         }
 
         .game-container {
             max-width: 450px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 40px;
-            padding: 20px 16px 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            width: 100%;
+            background: rgba(20, 25, 35, 0.9);
             backdrop-filter: blur(10px);
+            border-radius: 48px;
+            padding: 24px 20px 32px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.2);
         }
 
         .stats-panel {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-radius: 30px;
-            padding: 18px;
-            margin-bottom: 20px;
-            color: white;
+            background: linear-gradient(135deg, #2a2f45 0%, #1e2338 100%);
+            border-radius: 32px;
+            padding: 20px;
+            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
         }
 
         .balance {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 24px;
-            font-weight: 900;
-            background: rgba(255,255,255,0.2);
+            font-size: 28px;
+            font-weight: 800;
+            background: rgba(0, 0, 0, 0.3);
             padding: 8px 20px;
             border-radius: 40px;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
-        .balance-icon { font-size: 28px; }
+        .balance-icon {
+            font-size: 32px;
+        }
 
         .energy {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.3);
             padding: 8px 16px;
             border-radius: 40px;
+            color: white;
         }
 
         .energy-bar {
             width: 80px;
             height: 10px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             overflow: hidden;
         }
 
         .energy-fill {
             height: 100%;
-            background: #fff;
-            width: 100%;
-            border-radius: 10px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            border-radius: 12px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px #4ade80;
+        }
+
+        .energy-text {
+            font-weight: 600;
+            min-width: 60px;
+            color: #4ade80;
         }
 
         .buda-section {
             text-align: center;
-            margin: 20px 0;
+            margin: 20px 0 30px;
         }
 
         .buda-button {
@@ -88,164 +105,171 @@
             height: 280px;
             margin: 0 auto;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #ffd93e, #ff9f1a);
-            box-shadow: 0 20px 30px rgba(0,0,0,0.3), 
-                       inset 0 -10px 20px rgba(0,0,0,0.3),
-                       inset 0 10px 20px rgba(255,255,255,0.5);
+            background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 
+                        0 0 30px rgba(255, 215, 0, 0.6),
+                        inset 0 -10px 20px rgba(0, 0, 0, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: transform 0.1s, width 0.3s, height 0.3s;
-            border: 6px solid #ffaa00;
+            transition: transform 0.1s ease;
             position: relative;
             overflow: hidden;
+            border: 4px solid rgba(255, 255, 255, 0.2);
         }
 
         .buda-button:active {
-            transform: scale(0.95);
+            transform: scale(0.96);
         }
 
-        .buda-button.level-1 { width: 240px; height: 240px; }
-        .buda-button.level-2 { width: 250px; height: 250px; }
-        .buda-button.level-3 { width: 260px; height: 260px; }
-        .buda-button.level-4 { width: 270px; height: 270px; }
-        .buda-button.level-5 { width: 280px; height: 280px; }
-        .buda-button.level-6 { width: 290px; height: 290px; }
-        .buda-button.level-7 { width: 300px; height: 300px; }
-
-        .buda-emoji {
-            font-size: 140px;
-            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
-            transition: font-size 0.3s;
+        .buda-button img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
-
-        .level-1 .buda-emoji { font-size: 120px; }
-        .level-2 .buda-emoji { font-size: 130px; }
-        .level-3 .buda-emoji { font-size: 140px; }
-        .level-4 .buda-emoji { font-size: 150px; }
-        .level-5 .buda-emoji { font-size: 160px; }
-        .level-6 .buda-emoji { font-size: 170px; }
-        .level-7 .buda-emoji { font-size: 180px; }
 
         .fatness-name {
-            margin-top: 15px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-            background: rgba(255,255,255,0.8);
-            display: inline-block;
-            padding: 8px 25px;
-            border-radius: 40px;
+            margin-top: 16px;
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffd700, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
         .click-power {
-            margin-top: 10px;
-            font-size: 16px;
-            color: #666;
+            margin-top: 8px;
+            font-size: 18px;
+            color: #9ca3af;
+            font-weight: 500;
         }
 
         .upgrades-section {
-            margin-top: 25px;
+            margin-top: 20px;
         }
 
         .section-title {
             font-size: 22px;
-            font-weight: 900;
-            margin-bottom: 15px;
+            font-weight: 800;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: #333;
+            gap: 10px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .upgrades-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 14px;
         }
 
         .upgrade-card {
-            background: white;
-            border-radius: 25px;
-            padding: 16px 12px;
+            background: rgba(30, 35, 50, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 20px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-            border: 2px solid rgba(255,255,255,0.8);
+            gap: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
             cursor: pointer;
-            transition: all 0.1s;
+            transition: all 0.2s;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         .upgrade-card:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
+            background: rgba(40, 45, 65, 0.9);
+            border-color: rgba(255, 215, 0, 0.5);
         }
 
         .upgrade-card.disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             pointer-events: none;
         }
 
-        .upgrade-emoji { font-size: 36px; }
-        .upgrade-name { font-weight: 800; }
-        .upgrade-price {
-            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        .upgrade-emoji {
+            font-size: 42px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        .upgrade-name {
+            font-weight: 700;
+            font-size: 16px;
             color: white;
-            font-weight: bold;
-            padding: 5px 15px;
-            border-radius: 30px;
+        }
+
+        .upgrade-price {
+            background: linear-gradient(135deg, #ffd700, #b8860b);
+            color: #0b0e14;
+            font-weight: 700;
+            padding: 6px 18px;
+            border-radius: 40px;
             font-size: 14px;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
         }
 
         .ref-section {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            border-radius: 20px;
-            padding: 15px;
-            margin-top: 20px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 28px;
+            padding: 18px;
+            margin-top: 25px;
             color: white;
+            box-shadow: 0 15px 25px -8px rgba(59, 130, 246, 0.5);
         }
 
         .ref-link {
-            background: rgba(255,255,255,0.2);
-            padding: 10px;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: 20px;
             font-size: 12px;
             word-break: break-all;
-            margin: 10px 0;
+            margin: 12px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .copy-btn {
             background: white;
             border: none;
-            color: #333;
-            padding: 10px 20px;
-            border-radius: 15px;
-            font-weight: bold;
+            color: #2563eb;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 16px;
             cursor: pointer;
             width: 100%;
+            transition: all 0.2s;
         }
 
-        .copy-btn:active { transform: scale(0.98); }
+        .copy-btn:active {
+            transform: scale(0.96);
+            background: #f3f4f6;
+        }
 
         .click-effect {
             position: absolute;
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.8);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 50%;
             transform: scale(0);
             pointer-events: none;
+            backdrop-filter: blur(5px);
         }
 
         .click-effect.active {
-            animation: clickRipple 0.4s ease-out;
+            animation: ripple 0.5s ease-out;
         }
 
-        @keyframes clickRipple {
-            0% { transform: scale(0); opacity: 1; }
-            100% { transform: scale(3); opacity: 0; }
+        @keyframes ripple {
+            0% { transform: scale(0); opacity: 0.8; }
+            100% { transform: scale(4); opacity: 0; }
         }
     </style>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -254,7 +278,7 @@
     <div class="game-container">
         <div class="stats-panel">
             <div class="balance">
-                <span class="balance-icon">👉</span>
+                <span class="balance-icon">🪙</span>
                 <span id="balanceDisplay">0</span>
             </div>
             <div class="energy">
@@ -262,14 +286,13 @@
                 <div class="energy-bar">
                     <div class="energy-fill" id="energyFill" style="width: 100%"></div>
                 </div>
-                <span id="energyDisplay">100/100</span>
+                <span class="energy-text" id="energyDisplay">100/100</span>
             </div>
         </div>
 
         <div class="buda-section">
-            <div class="buda-button level-1" id="budaButton">
-                <!-- Здесь фото Буды -->
-                <img src="buda.jpg" alt="Буда" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+            <div class="buda-button" id="budaButton">
+                <img src="buda.jpg" alt="Буда" id="budaImage">
                 <div class="click-effect" id="clickEffect"></div>
             </div>
             <div class="fatness-name" id="fatnessName">Буда-спичка</div>
@@ -278,36 +301,36 @@
 
         <div class="upgrades-section">
             <div class="section-title">
-                <span>🔧</span> Прокачка Буды
+                <span>⚡</span> Прокачка
             </div>
             <div class="upgrades-grid">
                 <div class="upgrade-card" onclick="buyUpgrade('power')">
                     <div class="upgrade-emoji">💪</div>
-                    <div class="upgrade-name">Сила тычка</div>
-                    <div class="upgrade-price" id="powerCost">100 💰</div>
+                    <div class="upgrade-name">Сила клика</div>
+                    <div class="upgrade-price" id="powerCost">100</div>
                 </div>
                 <div class="upgrade-card" onclick="buyUpgrade('energy')">
                     <div class="upgrade-emoji">🔋</div>
                     <div class="upgrade-name">Макс. энергия</div>
-                    <div class="upgrade-price" id="energyCost">200 💰</div>
+                    <div class="upgrade-price" id="energyCost">200</div>
                 </div>
                 <div class="upgrade-card" onclick="buyUpgrade('regen')">
                     <div class="upgrade-emoji">⚡</div>
                     <div class="upgrade-name">Регенерация</div>
-                    <div class="upgrade-price" id="regenCost">300 💰</div>
+                    <div class="upgrade-price" id="regenCost">300</div>
                 </div>
                 <div class="upgrade-card" onclick="buyUpgrade('crit')">
                     <div class="upgrade-emoji">🎯</div>
                     <div class="upgrade-name">Крит. шанс</div>
-                    <div class="upgrade-price" id="critCost">500 💰</div>
+                    <div class="upgrade-price" id="critCost">500</div>
                 </div>
             </div>
         </div>
 
         <div class="ref-section">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                 <span><strong>👥 Рефералов: <span id="referralsCount">0</span></strong></span>
-                <span>+100 монет за друга</span>
+                <span>+100 за друга</span>
             </div>
             <div class="ref-link" id="refLink">загрузка...</div>
             <button class="copy-btn" onclick="copyRefLink()">📋 Копировать ссылку</button>
@@ -318,9 +341,8 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
-        window.onbeforeunload = null; // убираем предупреждение
+        window.onbeforeunload = null;
 
-        // Данные пользователя
         let userData = {
             balance: 0,
             energy: 100,
@@ -330,58 +352,48 @@
             totalEarned: 0,
             critChance: 0,
             energyRegen: 1,
-            premium: false,
             referrals: 0
         };
 
-        // Стадии толстоты
+        const userId = tg.initDataUnsafe.user?.id || 0;
+        const botUsername = 'budka_click_bot';
+        const refLink = `https://t.me/${botUsername}?start=ref_${userId}`;
+        document.getElementById('refLink').textContent = refLink;
+
         const fatnessStages = [
-            { threshold: 0, name: "Буда-спичка", emoji: "😤", level: 1 },
-            { threshold: 100, name: "Буда-пончик", emoji: "🍩", level: 2 },
-            { threshold: 1000, name: "Буда-пухлик", emoji: "🥟", level: 3 },
-            { threshold: 10000, name: "Буда-колобок", emoji: "⚪", level: 4 },
-            { threshold: 100000, name: "Буда-телепузик", emoji: "🐷", level: 5 },
-            { threshold: 500000, name: "Буда-бочка", emoji: "🛢️", level: 6 },
-            { threshold: 1000000, name: "Буда-планета", emoji: "🌍", level: 7 }
+            { threshold: 0, name: "Буда-спичка", emoji: "😤" },
+            { threshold: 100, name: "Буда-пончик", emoji: "🍩" },
+            { threshold: 1000, name: "Буда-пухлик", emoji: "🥟" },
+            { threshold: 10000, name: "Буда-колобок", emoji: "⚪" },
+            { threshold: 100000, name: "Буда-телепузик", emoji: "🐷" },
+            { threshold: 500000, name: "Буда-бочка", emoji: "🛢️" },
+            { threshold: 1000000, name: "Буда-планета", emoji: "🌍" }
         ];
 
-        // Загрузка данных
         function loadData() {
             tg.CloudStorage.getItem('budaData', (err, data) => {
                 if (data && !err) {
                     try {
-                        userData = { ...userData, ...JSON.parse(data) };
+                        const saved = JSON.parse(data);
+                        userData = { ...userData, ...saved };
                     } catch (e) {}
-                } else {
-                    const local = localStorage.getItem('budaData');
-                    if (local) {
-                        try {
-                            userData = { ...userData, ...JSON.parse(local) };
-                        } catch (e) {}
-                    }
                 }
                 updateDisplay();
                 sendDataToBot('sync');
             });
         }
 
-        // Сохранение данных
         function saveData() {
-            const dataStr = JSON.stringify(userData);
-            tg.CloudStorage.setItem('budaData', dataStr);
-            localStorage.setItem('budaData', dataStr);
+            tg.CloudStorage.setItem('budaData', JSON.stringify(userData));
+            localStorage.setItem('budaData', JSON.stringify(userData));
         }
 
-        // Автосохранение
         setInterval(saveData, 5000);
-
-        // Сохранение перед выходом
         window.addEventListener('beforeunload', () => {
             saveData();
             sendDataToBot('sync');
         });
 
-        // Отправка данных боту
         function sendDataToBot(action, extra = {}) {
             const payload = {
                 action: action,
@@ -393,40 +405,30 @@
             tg.sendData(JSON.stringify(payload));
         }
 
-        // Обновление интерфейса
         function updateDisplay() {
             document.getElementById('balanceDisplay').textContent = userData.balance;
             document.getElementById('energyDisplay').textContent = `${userData.energy}/${userData.maxEnergy}`;
             document.getElementById('energyFill').style.width = `${(userData.energy / userData.maxEnergy) * 100}%`;
 
-            const stage = fatnessStages.findLast(s => userData.totalClicks >= s.threshold) || fatnessStages[0];
+            const stage = fatnessStages.slice().reverse().find(s => userData.totalClicks >= s.threshold) || fatnessStages[0];
             document.getElementById('fatnessName').textContent = stage.name;
 
-            const budaButton = document.getElementById('budaButton');
-            budaButton.className = `buda-button level-${stage.level}`;
-
-            let powerText = `+${userData.clickPower} за тычок`;
-            if (userData.premium) powerText += ' (x2)';
-            if (userData.critChance > 0) powerText += `, крит ${userData.critChance}% x3`;
+            let powerText = `+${userData.clickPower}`;
+            if (userData.critChance > 0) powerText += ` (крит ${userData.critChance}%)`;
             document.getElementById('clickPowerDisplay').textContent = powerText;
 
-            document.getElementById('powerCost').textContent = `${100 * userData.clickPower} 💰`;
-            document.getElementById('energyCost').textContent = '200 💰';
-            document.getElementById('regenCost').textContent = '300 💰';
-            document.getElementById('critCost').textContent = '500 💰';
+            document.getElementById('powerCost').textContent = userData.clickPower * 100;
+            document.getElementById('energyCost').textContent = 200;
+            document.getElementById('regenCost').textContent = 300;
+            document.getElementById('critCost').textContent = 500;
+            document.getElementById('referralsCount').textContent = userData.referrals;
 
             saveData();
         }
 
-        // Клик по Буде
         document.getElementById('budaButton').addEventListener('click', (e) => {
             if (userData.energy <= 0) {
                 tg.HapticFeedback?.notificationOccurred('error');
-                tg.showPopup({
-                    title: '😴 Буда устал',
-                    message: 'Подожди, пока восстановится энергия!',
-                    buttons: [{ type: 'ok' }]
-                });
                 return;
             }
 
@@ -438,15 +440,14 @@
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const effect = document.getElementById('clickEffect');
-            effect.style.left = x - 30 + 'px';
-            effect.style.top = y - 30 + 'px';
+            effect.style.left = x - 40 + 'px';
+            effect.style.top = y - 40 + 'px';
             effect.classList.add('active');
-            setTimeout(() => effect.classList.remove('active'), 400);
+            setTimeout(() => effect.classList.remove('active'), 500);
 
             tg.HapticFeedback?.impactOccurred('medium');
 
             let earned = userData.clickPower;
-            if (userData.premium) earned *= 2;
             if (Math.random() * 100 < userData.critChance) {
                 earned *= 3;
                 tg.HapticFeedback?.notificationOccurred('success');
@@ -459,20 +460,8 @@
 
             updateDisplay();
             sendDataToBot('click', { earned });
-
-            const oldStage = fatnessStages.findLast(s => (userData.totalClicks - 1) >= s.threshold)?.level || 1;
-            const newStage = fatnessStages.findLast(s => userData.totalClicks >= s.threshold)?.level || 1;
-            if (newStage > oldStage) {
-                tg.HapticFeedback?.notificationOccurred('success');
-                tg.showPopup({
-                    title: '🎉 Буда потолстел!',
-                    message: `Поздравляю! Буда достиг стадии: ${fatnessStages.find(s => s.level === newStage).name}`,
-                    buttons: [{ type: 'ok' }]
-                });
-            }
         });
 
-        // Покупка улучшений
         function buyUpgrade(type) {
             let cost = 0;
             switch(type) {
@@ -509,29 +498,22 @@
             if (cost > 0 && userData.balance >= cost) {
                 tg.HapticFeedback?.notificationOccurred('success');
                 updateDisplay();
-                sendDataToBot('upgrade', { type });
+                sendDataToBot('upgrade');
             } else {
                 tg.HapticFeedback?.notificationOccurred('error');
             }
         }
-
-        // Рефералы
-        const userId = tg.initDataUnsafe.user?.id || 0;
-        const botUsername = 'budka_click_bot';
-        const refLink = `https://t.me/${botUsername}?start=ref_${userId}`;
-        document.getElementById('refLink').textContent = refLink;
 
         window.copyRefLink = function() {
             navigator.clipboard.writeText(refLink);
             tg.HapticFeedback?.notificationOccurred('success');
             tg.showPopup({
                 title: '✅ Скопировано!',
-                message: 'Отправь друзьям и получай +100 монет за каждого!',
+                message: 'Отправь друзьям и получай +100 монет!',
                 buttons: [{ type: 'ok' }]
             });
         };
 
-        // Регенерация энергии
         setInterval(() => {
             if (userData.energy < userData.maxEnergy) {
                 userData.energy = Math.min(userData.maxEnergy, userData.energy + userData.energyRegen);
