@@ -268,9 +268,10 @@
 
         <div class="buda-section">
             <div class="buda-button level-1" id="budaButton">
-    <img src="buda.jpg" alt="Буда" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
-    <div class="click-effect" id="clickEffect"></div>
-</div>
+                <!-- Здесь фото Буды -->
+                <img src="buda.jpg" alt="Буда" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                <div class="click-effect" id="clickEffect"></div>
+            </div>
             <div class="fatness-name" id="fatnessName">Буда-спичка</div>
             <div class="click-power" id="clickPowerDisplay">+1 за тычок</div>
         </div>
@@ -314,13 +315,10 @@
     </div>
 
     <script>
-        // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
-
-        // Отключаем стандартное браузерное предупреждение
-        window.onbeforeunload = null;
+        window.onbeforeunload = null; // убираем предупреждение
 
         // Данные пользователя
         let userData = {
@@ -347,16 +345,14 @@
             { threshold: 1000000, name: "Буда-планета", emoji: "🌍", level: 7 }
         ];
 
-        // ===== ЗАГРУЗКА / СОХРАНЕНИЕ =====
+        // Загрузка данных
         function loadData() {
-            // Сначала пробуем CloudStorage
             tg.CloudStorage.getItem('budaData', (err, data) => {
                 if (data && !err) {
                     try {
                         userData = { ...userData, ...JSON.parse(data) };
                     } catch (e) {}
                 } else {
-                    // Если нет в CloudStorage, пробуем localStorage
                     const local = localStorage.getItem('budaData');
                     if (local) {
                         try {
@@ -365,28 +361,27 @@
                     }
                 }
                 updateDisplay();
-                // Сообщаем боту о синхронизации
                 sendDataToBot('sync');
             });
         }
 
+        // Сохранение данных
         function saveData() {
-            // Сохраняем в оба места для надёжности
             const dataStr = JSON.stringify(userData);
             tg.CloudStorage.setItem('budaData', dataStr);
             localStorage.setItem('budaData', dataStr);
         }
 
-        // Автосохранение каждые 5 секунд
+        // Автосохранение
         setInterval(saveData, 5000);
 
-        // Сохраняем перед выходом
+        // Сохранение перед выходом
         window.addEventListener('beforeunload', () => {
             saveData();
             sendDataToBot('sync');
         });
 
-        // ===== ОТПРАВКА ДАННЫХ БОТУ =====
+        // Отправка данных боту
         function sendDataToBot(action, extra = {}) {
             const payload = {
                 action: action,
@@ -398,13 +393,13 @@
             tg.sendData(JSON.stringify(payload));
         }
 
-        // ===== ОБНОВЛЕНИЕ ИНТЕРФЕЙСА =====
+        // Обновление интерфейса
         function updateDisplay() {
             document.getElementById('balanceDisplay').textContent = userData.balance;
             document.getElementById('energyDisplay').textContent = `${userData.energy}/${userData.maxEnergy}`;
             document.getElementById('energyFill').style.width = `${(userData.energy / userData.maxEnergy) * 100}%`;
 
-            const stage = fatnessStages.findLast(s => userData.totalClicks >= s.threshold) || fatnessStages[0]
+            const stage = fatnessStages.findLast(s => userData.totalClicks >= s.threshold) || fatnessStages[0];
             document.getElementById('fatnessName').textContent = stage.name;
 
             const budaButton = document.getElementById('budaButton');
@@ -416,7 +411,6 @@
             document.getElementById('clickPowerDisplay').textContent = powerText;
 
             document.getElementById('powerCost').textContent = `${100 * userData.clickPower} 💰`;
-            // Остальные цены фиксированные (можно менять по желанию)
             document.getElementById('energyCost').textContent = '200 💰';
             document.getElementById('regenCost').textContent = '300 💰';
             document.getElementById('critCost').textContent = '500 💰';
@@ -424,7 +418,7 @@
             saveData();
         }
 
-        // ===== КЛИК ПО БУДЕ =====
+        // Клик по Буде
         document.getElementById('budaButton').addEventListener('click', (e) => {
             if (userData.energy <= 0) {
                 tg.HapticFeedback?.notificationOccurred('error');
@@ -436,7 +430,6 @@
                 return;
             }
 
-            // Анимация
             const button = e.currentTarget;
             button.style.transform = 'scale(0.95)';
             setTimeout(() => button.style.transform = 'scale(1)', 100);
@@ -467,7 +460,6 @@
             updateDisplay();
             sendDataToBot('click', { earned });
 
-            // Проверка на новую стадию
             const oldStage = fatnessStages.findLast(s => (userData.totalClicks - 1) >= s.threshold)?.level || 1;
             const newStage = fatnessStages.findLast(s => userData.totalClicks >= s.threshold)?.level || 1;
             if (newStage > oldStage) {
@@ -480,7 +472,7 @@
             }
         });
 
-        // ===== УЛУЧШЕНИЯ =====
+        // Покупка улучшений
         function buyUpgrade(type) {
             let cost = 0;
             switch(type) {
@@ -523,7 +515,7 @@
             }
         }
 
-        // ===== РЕФЕРАЛЫ =====
+        // Рефералы
         const userId = tg.initDataUnsafe.user?.id || 0;
         const botUsername = 'budka_click_bot';
         const refLink = `https://t.me/${botUsername}?start=ref_${userId}`;
@@ -539,7 +531,7 @@
             });
         };
 
-        // ===== РЕГЕНЕРАЦИЯ ЭНЕРГИИ =====
+        // Регенерация энергии
         setInterval(() => {
             if (userData.energy < userData.maxEnergy) {
                 userData.energy = Math.min(userData.maxEnergy, userData.energy + userData.energyRegen);
@@ -547,10 +539,7 @@
             }
         }, 1000);
 
-        // ===== СТАРТ =====
         loadData();
     </script>
 </body>
 </html>
-
-
