@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🐹 Буда Кликер 2.0</title>
+    <title>🍔 Буда Кликер</title>
     <style>
         * {
             margin: 0;
@@ -13,259 +13,256 @@
             -webkit-tap-highlight-color: transparent;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(145deg, #0b0e14 0%, #1a1f2c 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 12px;
         }
         .game-container {
             max-width: 450px;
-            width: 100%;
-            background: rgba(20, 25, 35, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 48px;
-            padding: 24px 20px 32px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.2);
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 40px;
+            padding: 20px 16px 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
         .stats-panel {
-            background: linear-gradient(135deg, #2a2f45 0%, #1e2338 100%);
-            border-radius: 32px;
-            padding: 20px;
-            margin-bottom: 24px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 30px;
+            padding: 18px;
+            margin-bottom: 20px;
+            color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
         }
         .balance {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 28px;
-            font-weight: 800;
-            background: rgba(0, 0, 0, 0.3);
+            font-size: 24px;
+            font-weight: 900;
+            background: rgba(255,255,255,0.2);
             padding: 8px 20px;
             border-radius: 40px;
-            color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
-        .balance-icon { font-size: 32px; }
+        .balance-icon { font-size: 28px; }
         .energy {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0,0,0,0.2);
             padding: 8px 16px;
             border-radius: 40px;
-            color: white;
         }
         .energy-bar {
             width: 80px;
             height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
             overflow: hidden;
         }
         .energy-fill {
             height: 100%;
-            background: linear-gradient(90deg, #4ade80, #22c55e);
-            border-radius: 12px;
-            transition: width 0.3s ease;
-            box-shadow: 0 0 10px #4ade80;
+            background: #fff;
+            width: 100%;
+            border-radius: 10px;
         }
-        .energy-text { font-weight: 600; min-width: 60px; color: #4ade80; }
-        .buda-section { text-align: center; margin: 20px 0 30px; }
+        .buda-section {
+            text-align: center;
+            margin: 20px 0;
+        }
         .buda-button {
-            width: 280px; height: 280px; margin: 0 auto; border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
-            box-shadow: 0 20px 30px rgba(0,0,0,0.5), 0 0 30px rgba(255,215,0,0.6), inset 0 -10px 20px rgba(0,0,0,0.5);
-            display: flex; justify-content: center; align-items: center; cursor: pointer;
-            transition: transform 0.1s ease; position: relative; overflow: hidden;
-            border: 4px solid rgba(255,255,255,0.2);
+            width: 280px;
+            height: 280px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffd93e, #ff9f1a);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.3), inset 0 -10px 20px rgba(0,0,0,0.3), inset 0 10px 20px rgba(255,255,255,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.1s;
+            border: 6px solid #ffaa00;
+            position: relative;
+            overflow: hidden;
         }
-        .buda-button:active { transform: scale(0.96); }
-        .buda-button img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-        .auto-click-effect {
-            position: absolute;
+        .buda-button:active {
+            transform: scale(0.95);
+        }
+        .buda-button img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: rgba(255, 215, 0, 0.2);
-            animation: pulse 1s infinite;
-            pointer-events: none;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.2; }
-            100% { transform: scale(1); opacity: 0.5; }
+            object-fit: cover;
         }
         .fatness-name {
-            margin-top: 16px; font-size: 24px; font-weight: 800;
-            background: linear-gradient(135deg, #ffd700, #fbbf24); -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent; text-shadow: 0 0 10px rgba(255,215,0,0.5);
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            background: rgba(255,255,255,0.8);
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 40px;
         }
-        .click-power { margin-top: 8px; font-size: 18px; color: #9ca3af; font-weight: 500; }
-        .nav-tabs { display: flex; gap: 10px; margin: 25px 0 15px; }
-        .nav-tab {
-            flex: 1; background: rgba(30,35,50,0.8); border: 1px solid rgba(255,215,0,0.2);
-            border-radius: 30px; padding: 12px; text-align: center; color: white;
-            font-weight: 600; cursor: pointer; transition: all 0.2s;
+        .click-power {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #666;
         }
-        .nav-tab.active { background: #ffd700; color: #0b0e14; border-color: #ffd700; }
-        .panel { background: rgba(30,35,50,0.8); border-radius: 30px; padding: 20px; margin: 15px 0; }
-        .top-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);
+        .upgrades-section {
+            margin-top: 25px;
         }
-        .top-rank {
-            width: 30px; height: 30px; border-radius: 15px; background: #ffd700;
-            color: #0b0e14; display: flex; align-items: center; justify-content: center; font-weight: 800;
+        .section-title {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333;
         }
-        .top-name { flex: 1; margin-left: 12px; color: white; }
-        .top-clicks { color: #ffd700; font-weight: 700; }
-        .settings-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1); color: white; }
-        .upgrades-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 15px 0; }
+        .upgrades-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
         .upgrade-card {
-            background: rgba(20,25,35,0.9); border-radius: 24px; padding: 16px 12px;
-            display: flex; flex-direction: column; align-items: center; gap: 8px;
-            border: 1px solid rgba(255,215,0,0.2); cursor: pointer; transition: 0.2s;
+            background: white;
+            border-radius: 25px;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255,255,255,0.8);
+            cursor: pointer;
         }
-        .upgrade-card:active { transform: scale(0.96); }
-        .upgrade-price { background: #ffd700; color: #0b0e14; font-weight: 700; padding: 5px 15px; border-radius: 20px; }
+        .upgrade-card:active {
+            transform: scale(0.97);
+        }
+        .upgrade-emoji { font-size: 36px; }
+        .upgrade-name { font-weight: 800; }
+        .upgrade-price {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: white;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+        .ref-section {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 20px;
+            color: white;
+        }
+        .ref-link {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            word-break: break-all;
+            margin: 10px 0;
+        }
         .copy-btn {
-            background: #ffd700; border: none; color: #0b0e14; padding: 12px 20px; border-radius: 30px;
-            font-weight: 700; font-size: 16px; cursor: pointer; width: 100%; margin-top: 12px; transition: 0.2s;
+            background: white;
+            border: none;
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
         }
-        .copy-btn:active { transform: scale(0.96); }
+        .copy-btn:active { transform: scale(0.98); }
         .click-effect {
-            position: absolute; width: 80px; height: 80px; background: rgba(255,255,255,0.6);
-            border-radius: 50%; transform: scale(0); pointer-events: none; backdrop-filter: blur(5px);
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            transform: scale(0);
+            pointer-events: none;
         }
-        .click-effect.active { animation: ripple 0.5s ease-out; }
-        @keyframes ripple {
-            0% { transform: scale(0); opacity: 0.8; }
-            100% { transform: scale(4); opacity: 0; }
+        .click-effect.active {
+            animation: clickRipple 0.4s ease-out;
         }
-        .premium-badge {
-            background: linear-gradient(135deg, #ffd700, #b8860b);
-            color: #0b0e14; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 14px;
-            margin-left: 8px;
+        @keyframes clickRipple {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
         }
     </style>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <div class="game-container">
         <div class="stats-panel">
             <div class="balance">
-                <span>🪙</span>
+                <span class="balance-icon">👉</span>
                 <span id="balanceDisplay">0</span>
-                <span id="premiumBadge" class="premium-badge" style="display:none;">PREMIUM</span>
             </div>
             <div class="energy">
                 <span>⚡</span>
-                <div class="energy-bar"><div class="energy-fill" id="energyFill" style="width: 100%"></div></div>
-                <span class="energy-text" id="energyDisplay">100/100</span>
+                <div class="energy-bar">
+                    <div class="energy-fill" id="energyFill" style="width: 100%"></div>
+                </div>
+                <span id="energyDisplay">100/100</span>
             </div>
         </div>
 
         <div class="buda-section">
             <div class="buda-button" id="budaButton">
                 <img src="buda.jpg" alt="Буда">
-                <div class="auto-click-effect" id="autoClickEffect" style="display:none;"></div>
                 <div class="click-effect" id="clickEffect"></div>
             </div>
             <div class="fatness-name" id="fatnessName">Буда-спичка</div>
             <div class="click-power" id="clickPowerDisplay">+1 за тычок</div>
         </div>
 
-        <div class="nav-tabs">
-            <div class="nav-tab active" onclick="switchTab('game')">🎮 Игра</div>
-            <div class="nav-tab" onclick="switchTab('upgrades')">⚡ Прокачка</div>
-            <div class="nav-tab" onclick="switchTab('top')">🏆 Топ</div>
-            <div class="nav-tab" onclick="switchTab('settings')">⚙️ Настройки</div>
-        </div>
-
-        <div id="gamePanel">
-            <div class="panel">
-                <div style="color:#ffd700;">📊 Твоя статистика</div>
-                <div class="settings-item"><span>Всего кликов</span><span id="statClicks">0</span></div>
-                <div class="settings-item"><span>Всего заработано</span><span id="statEarned">0</span></div>
-                <div class="settings-item"><span>Рефералов</span><span id="referralsCount">0</span></div>
-                <div class="settings-item"><span>Автокликер</span><span id="autoClickerStatus">❌</span></div>
+        <div class="upgrades-section">
+            <div class="section-title">
+                <span>🔧</span> Прокачка Буды
             </div>
-            <div style="background: rgba(30,35,50,0.8); border-radius: 20px; padding: 15px; margin-top: 15px;">
-                <div style="color: white; margin-bottom: 10px;">👥 Твоя реферальная ссылка</div>
-                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 15px; font-size: 12px; word-break: break-all; color: #ffd700;" id="refLink">загрузка...</div>
-                <button class="copy-btn" onclick="copyRefLink()">📋 Копировать</button>
-            </div>
-        </div>
-
-        <div id="upgradesPanel" style="display:none;">
             <div class="upgrades-grid">
                 <div class="upgrade-card" onclick="buyUpgrade('power')">
-                    <div>💪</div>
-                    <div>Сила клика</div>
-                    <div class="upgrade-price" id="powerCost">100</div>
+                    <div class="upgrade-emoji">💪</div>
+                    <div class="upgrade-name">Сила тычка</div>
+                    <div class="upgrade-price" id="powerCost">100 💰</div>
                 </div>
                 <div class="upgrade-card" onclick="buyUpgrade('energy')">
-                    <div>🔋</div>
-                    <div>Макс. энергия</div>
-                    <div class="upgrade-price" id="energyCost">200</div>
+                    <div class="upgrade-emoji">🔋</div>
+                    <div class="upgrade-name">Макс. энергия</div>
+                    <div class="upgrade-price" id="energyCost">200 💰</div>
                 </div>
                 <div class="upgrade-card" onclick="buyUpgrade('regen')">
-                    <div>⚡</div>
-                    <div>Регенерация</div>
-                    <div class="upgrade-price" id="regenCost">300</div>
+                    <div class="upgrade-emoji">⚡</div>
+                    <div class="upgrade-name">Регенерация</div>
+                    <div class="upgrade-price" id="regenCost">300 💰</div>
                 </div>
                 <div class="upgrade-card" onclick="buyUpgrade('crit')">
-                    <div>🎯</div>
-                    <div>Крит. шанс</div>
-                    <div class="upgrade-price" id="critCost">500</div>
+                    <div class="upgrade-emoji">🎯</div>
+                    <div class="upgrade-name">Крит. шанс</div>
+                    <div class="upgrade-price" id="critCost">500 💰</div>
                 </div>
             </div>
         </div>
 
-        <div id="topPanel" style="display:none;">
-            <div class="panel">
-                <div style="color: #ffd700; text-align: center; margin-bottom: 15px;">🏆 ТОП ИГРОКОВ</div>
-                <div id="topContent">Загрузка...</div>
+        <div class="ref-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span><strong>👥 Рефералов: <span id="referralsCount">0</span></strong></span>
+                <span>+100 монет за друга</span>
             </div>
-        </div>
-
-        <div id="settingsPanel" style="display:none;">
-            <div class="panel">
-                <div class="settings-item"><span>Версия</span><span>2.0.0</span></div>
-                <div class="settings-item"><span>Твой ID</span><span id="userId">-</span></div>
-                <div class="settings-item"><span>Премиум</span><span id="premiumStatus">Нет</span></div>
-                <div class="settings-item"><span>Автокликер</span><span id="autoClickerStatus2">❌</span></div>
-            </div>
+            <div class="ref-link" id="refLink">загрузка...</div>
+            <button class="copy-btn" onclick="copyRefLink()">📋 Копировать ссылку</button>
         </div>
     </div>
 
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyB...",   // ЗАМЕНИ НА СВОЙ
-            authDomain: "buda-clicker.firebaseapp.com",
-            databaseURL: "https://buda-clicker-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "buda-clicker",
-            storageBucket: "buda-clicker.appspot.com",
-            messagingSenderId: "1234567890",
-            appId: "1:1234567890:web:abcdef"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        const usersRef = database.ref('users');
-        const logsRef = database.ref('logs');
-
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
@@ -281,17 +278,8 @@
             critChance: 0,
             energyRegen: 1,
             referrals: 0,
-            premium: false,
-            lastLogin: null
+            premium: false
         };
-
-        const userId = String(tg.initDataUnsafe.user?.id || 0);
-        const userName = tg.initDataUnsafe.user?.first_name || "Anonymous";
-        document.getElementById('userId').textContent = userId;
-
-        const botUsername = 'budka_click_bot';
-        const refLink = `https://t.me/${botUsername}?start=ref_${userId}`;
-        document.getElementById('refLink').textContent = refLink;
 
         const fatnessStages = [
             { threshold: 0, name: "Буда-спичка" },
@@ -303,54 +291,26 @@
             { threshold: 1000000, name: "Буда-планета" }
         ];
 
-        logsRef.push({
-            userId: userId,
-            userName: userName,
-            action: 'login',
-            timestamp: Date.now()
-        });
+        const userId = tg.initDataUnsafe.user?.id || 0;
+        const botUsername = 'budka_click_bot';
+        const refLink = `https://t.me/${botUsername}?start=ref_${userId}`;
+        document.getElementById('refLink').textContent = refLink;
 
         function loadData() {
             tg.CloudStorage.getItem('budaData', (err, data) => {
                 if (data && !err) {
                     try {
-                        const saved = JSON.parse(data);
-                        userData = { ...userData, ...saved };
+                        userData = { ...userData, ...JSON.parse(data) };
                     } catch (e) {}
                 }
-                usersRef.child(userId).once('value', (snapshot) => {
-                    const fbData = snapshot.val();
-                    if (fbData) {
-                        userData.balance = fbData.balance ?? userData.balance;
-                        userData.totalClicks = fbData.clicks ?? userData.totalClicks;
-                        userData.totalEarned = fbData.earned ?? userData.totalEarned;
-                        userData.referrals = fbData.referrals ?? userData.referrals;
-                        userData.premium = fbData.premium ?? userData.premium;
-                    } else {
-                        usersRef.child(userId).set({
-                            name: userName,
-                            clicks: userData.totalClicks,
-                            balance: userData.balance,
-                            earned: userData.totalEarned,
-                            referrals: userData.referrals,
-                            premium: userData.premium
-                        });
-                    }
-                    updateDisplay();
-                    sendDataToBot('sync');
-                });
+                updateDisplay();
+                sendDataToBot('sync');
             });
         }
 
         function saveData() {
             tg.CloudStorage.setItem('budaData', JSON.stringify(userData));
             localStorage.setItem('budaData', JSON.stringify(userData));
-            usersRef.child(userId).update({
-                clicks: userData.totalClicks,
-                balance: userData.balance,
-                earned: userData.totalEarned,
-                premium: userData.premium
-            });
         }
 
         setInterval(saveData, 5000);
@@ -365,98 +325,27 @@
                 balance: userData.balance,
                 totalClicks: userData.totalClicks,
                 totalEarned: userData.totalEarned,
-                premium: userData.premium,
                 ...extra
             };
             tg.sendData(JSON.stringify(payload));
         }
 
         function updateDisplay() {
-            document.getElementById('balanceDisplay').textContent = Math.floor(userData.balance);
-            document.getElementById('energyDisplay').textContent = `${Math.floor(userData.energy)}/${userData.maxEnergy}`;
+            document.getElementById('balanceDisplay').textContent = userData.balance;
+            document.getElementById('energyDisplay').textContent = `${userData.energy}/${userData.maxEnergy}`;
             document.getElementById('energyFill').style.width = `${(userData.energy / userData.maxEnergy) * 100}%`;
 
             const stage = fatnessStages.slice().reverse().find(s => userData.totalClicks >= s.threshold) || fatnessStages[0];
             document.getElementById('fatnessName').textContent = stage.name;
             document.getElementById('clickPowerDisplay').textContent = `+${userData.clickPower} за тычок`;
 
-            document.getElementById('powerCost').textContent = userData.clickPower * 100;
-            document.getElementById('energyCost').textContent = 200;
-            document.getElementById('regenCost').textContent = 300;
-            document.getElementById('critCost').textContent = 500;
-
-            document.getElementById('statClicks').textContent = userData.totalClicks;
-            document.getElementById('statEarned').textContent = Math.floor(userData.totalEarned);
+            document.getElementById('powerCost').textContent = `${100 * userData.clickPower} 💰`;
+            document.getElementById('energyCost').textContent = '200 💰';
+            document.getElementById('regenCost').textContent = '300 💰';
+            document.getElementById('critCost').textContent = '500 💰';
             document.getElementById('referralsCount').textContent = userData.referrals;
-            document.getElementById('premiumStatus').textContent = userData.premium ? 'Да' : 'Нет';
-            document.getElementById('autoClickerStatus').textContent = userData.premium ? '✅' : '❌';
-            document.getElementById('autoClickerStatus2').textContent = userData.premium ? '✅' : '❌';
-            document.getElementById('premiumBadge').style.display = userData.premium ? 'inline-block' : 'none';
 
             saveData();
-        }
-
-        setInterval(() => {
-            if (userData.premium && userData.energy > 0) {
-                let earned = userData.clickPower;
-                userData.balance += earned;
-                userData.totalEarned += earned;
-                userData.totalClicks++;
-                userData.energy--;
-                updateDisplay();
-                document.getElementById('autoClickEffect').style.display = 'block';
-                setTimeout(() => document.getElementById('autoClickEffect').style.display = 'none', 200);
-                sendDataToBot('auto_click', { earned });
-            }
-        }, 1000);
-
-        window.switchTab = function(tab) {
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('gamePanel').style.display = tab === 'game' ? 'block' : 'none';
-            document.getElementById('upgradesPanel').style.display = tab === 'upgrades' ? 'block' : 'none';
-            document.getElementById('topPanel').style.display = tab === 'top' ? 'block' : 'none';
-            document.getElementById('settingsPanel').style.display = tab === 'settings' ? 'block' : 'none';
-            if (tab === 'top') loadTop();
-        };
-
-        function loadTop() {
-            usersRef.orderByChild('clicks').limitToLast(10).once('value', (snapshot) => {
-                const users = snapshot.val() || {};
-                const topList = [];
-                for (let uid in users) {
-                    const data = users[uid];
-                    if (data.clicks && data.clicks > 0) {
-                        topList.push({
-                            name: data.name || 'Unknown',
-                            clicks: data.clicks,
-                            balance: data.balance || 0
-                        });
-                    }
-                }
-                topList.sort((a, b) => b.clicks - a.clicks);
-                const top10 = topList.slice(0, 10);
-                renderTop(top10);
-            });
-        }
-
-        function renderTop(top) {
-            const topContent = document.getElementById('topContent');
-            if (top.length === 0) {
-                topContent.innerHTML = '<div style="text-align: center; color: #888;">Топ пока пуст</div>';
-                return;
-            }
-            let html = '';
-            top.forEach((player, index) => {
-                html += `
-                    <div class="top-item">
-                        <div class="top-rank">${index + 1}</div>
-                        <div class="top-name">${player.name}</div>
-                        <div class="top-clicks">${player.clicks}</div>
-                    </div>
-                `;
-            });
-            topContent.innerHTML = html;
         }
 
         document.getElementById('budaButton').addEventListener('click', (e) => {
@@ -473,10 +362,10 @@
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const effect = document.getElementById('clickEffect');
-            effect.style.left = x - 40 + 'px';
-            effect.style.top = y - 40 + 'px';
+            effect.style.left = x - 30 + 'px';
+            effect.style.top = y - 30 + 'px';
             effect.classList.add('active');
-            setTimeout(() => effect.classList.remove('active'), 500);
+            setTimeout(() => effect.classList.remove('active'), 400);
 
             tg.HapticFeedback?.impactOccurred('medium');
 
@@ -495,7 +384,7 @@
             sendDataToBot('click', { earned });
         });
 
-        window.buyUpgrade = function(type) {
+        function buyUpgrade(type) {
             let cost = 0;
             switch(type) {
                 case 'power':
@@ -535,7 +424,7 @@
             } else {
                 tg.HapticFeedback?.notificationOccurred('error');
             }
-        };
+        }
 
         window.copyRefLink = function() {
             navigator.clipboard.writeText(refLink);
