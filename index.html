@@ -5,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🍔 Буда Кликер</title>
     <style>
-        /* ===== ВСЕ СТИЛИ ИЗ ПРЕДЫДУЩЕЙ РАБОЧЕЙ ВЕРСИИ ===== */
-        /* (они уже есть в твоём файле, оставь их без изменений) */
+        /* Стили (оставь свои, они уже есть) */
     </style>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-    <!-- ===== РАЗМЕТКА ИЗ ТВОЕГО РАБОЧЕГО ФАЙЛА ===== -->
-    <!-- (она уже есть, оставь как есть) -->
     <div class="game-container">
-        <!-- ... -->
+        <!-- Разметка (оставь свою) -->
     </div>
-
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
@@ -32,31 +28,19 @@
             totalEarned: 0,
             critChance: 0,
             energyRegen: 1,
-            referrals: 0,
-            premium: false
+            referrals: 0
         };
-
-        const fatnessStages = [
-            { threshold: 0, name: "Буда-спичка" },
-            { threshold: 100, name: "Буда-пончик" },
-            { threshold: 1000, name: "Буда-пухлик" },
-            { threshold: 10000, name: "Буда-колобок" },
-            { threshold: 100000, name: "Буда-телепузик" },
-            { threshold: 500000, name: "Буда-бочка" },
-            { threshold: 1000000, name: "Буда-планета" }
-        ];
 
         const userId = tg.initDataUnsafe.user?.id || 0;
         const botUsername = 'budka_click_bot';
         const refLink = `https://t.me/${botUsername}?start=ref_${userId}`;
 
-        // Функция загрузки данных
+        // Загрузка данных
         function loadData() {
             tg.CloudStorage.getItem('budaData', (err, data) => {
                 if (data && !err) {
                     try {
-                        const saved = JSON.parse(data);
-                        userData = { ...userData, ...saved };
+                        userData = { ...userData, ...JSON.parse(data) };
                     } catch (e) {}
                 }
                 updateDisplay();
@@ -64,22 +48,18 @@
             });
         }
 
-        // Функция сохранения
+        // Сохранение данных
         function saveData() {
             tg.CloudStorage.setItem('budaData', JSON.stringify(userData));
             localStorage.setItem('budaData', JSON.stringify(userData));
         }
 
-        // Автосохранение каждые 5 секунд
         setInterval(saveData, 5000);
-
-        // Сохранение при закрытии
         window.addEventListener('beforeunload', () => {
             saveData();
             sendDataToBot('sync');
         });
 
-        // Отправка данных боту
         function sendDataToBot(action, extra = {}) {
             const payload = {
                 action: action,
@@ -91,7 +71,6 @@
             tg.sendData(JSON.stringify(payload));
         }
 
-        // Обновление интерфейса
         function updateDisplay() {
             document.getElementById('balanceDisplay').textContent = userData.balance;
             document.getElementById('energyDisplay').textContent = `${userData.energy}/${userData.maxEnergy}`;
@@ -113,34 +92,10 @@
 
         // Клик по Буде
         document.getElementById('budaButton').addEventListener('click', (e) => {
-            if (userData.energy <= 0) {
-                tg.HapticFeedback?.notificationOccurred('error');
-                return;
-            }
+            if (userData.energy <= 0) return;
 
-            // Анимация
-            const button = e.currentTarget;
-            button.style.transform = 'scale(0.95)';
-            setTimeout(() => button.style.transform = 'scale(1)', 100);
-
-            // Эффект
-            const rect = button.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const effect = document.getElementById('clickEffect');
-            effect.style.left = x - 30 + 'px';
-            effect.style.top = y - 30 + 'px';
-            effect.classList.add('active');
-            setTimeout(() => effect.classList.remove('active'), 400);
-
-            tg.HapticFeedback?.impactOccurred('medium');
-
-            // Расчёт дохода
             let earned = userData.clickPower;
-            if (Math.random() * 100 < userData.critChance) {
-                earned *= 3;
-                tg.HapticFeedback?.notificationOccurred('success');
-            }
+            if (Math.random() * 100 < userData.critChance) earned *= 3;
 
             userData.balance += earned;
             userData.totalEarned += earned;
@@ -186,26 +141,17 @@
                     break;
             }
             if (cost > 0 && userData.balance >= cost) {
-                tg.HapticFeedback?.notificationOccurred('success');
                 updateDisplay();
                 sendDataToBot('upgrade');
-            } else {
-                tg.HapticFeedback?.notificationOccurred('error');
             }
         };
 
-        // Копирование реферальной ссылки
         window.copyRefLink = function() {
             navigator.clipboard.writeText(refLink);
             tg.HapticFeedback?.notificationOccurred('success');
-            tg.showPopup({
-                title: '✅ Скопировано!',
-                message: '+100 монет за друга',
-                buttons: [{ type: 'ok' }]
-            });
+            tg.showPopup({ title: '✅ Скопировано!', message: '+100 монет за друга', buttons: [{ type: 'ok' }] });
         };
 
-        // Регенерация энергии
         setInterval(() => {
             if (userData.energy < userData.maxEnergy) {
                 userData.energy = Math.min(userData.maxEnergy, userData.energy + userData.energyRegen);
@@ -213,7 +159,6 @@
             }
         }, 1000);
 
-        // Старт
         loadData();
     </script>
 </body>
